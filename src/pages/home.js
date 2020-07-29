@@ -20,6 +20,7 @@ class home extends Component {
   }
 
   render() {
+    // noinspection JSUnresolvedVariable
     let recentScreamsMarkup = this.state.screams ? (
       this.state.screams.map(scream => <Scream key={scream.screamId} scream={scream}/>)
     ) : <p>Loading...</p>
