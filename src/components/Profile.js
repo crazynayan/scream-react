@@ -1,13 +1,14 @@
 import React, {Component, Fragment} from "react"
 import {Link} from "react-router-dom"
 import PropTypes from "prop-types"
-import {Button, Link as MuiLink, Paper, Typography, IconButton, Tooltip, withStyles} from "@material-ui/core"
-import {CalendarToday, Link as LinkIcon, LocationOn, Edit as EditIcon, KeyboardReturn} from "@material-ui/icons"
+import {Button, Link as MuiLink, Paper, Typography, withStyles} from "@material-ui/core"
+import {CalendarToday, Edit as EditIcon, KeyboardReturn, Link as LinkIcon, LocationOn} from "@material-ui/icons"
 import {connect} from "react-redux"
 import dayjs from "dayjs"
 
 import {logoutUser, uploadImage} from "../redux/actions/userAction"
 import EditDetails from "./EditDetails"
+import ScreamButton from "../util/ScreamButton";
 
 const styles = (theme) => ({...theme.customStyles,})
 
@@ -36,11 +37,9 @@ class Profile extends Component {
           <div className="image-wrapper">
             <img src={imageUrl} alt={"profile"} className={"profile-image"}/>
             <input type={"file"} id={"imageInput"} hidden={"hidden"} onChange={this.handleImageChange}/>
-            <Tooltip title={"Edit profile picture"} placement={"top"}>
-              <IconButton onClick={this.handleEditPicture} className={"button"}>
-                <EditIcon color={"primary"}/>
-              </IconButton>
-            </Tooltip>
+            <ScreamButton title={"Edit profile picture"} onClick={this.handleEditPicture} buttonClass={"button"}>
+              <EditIcon color={"primary"}/>
+            </ScreamButton>
           </div>
           <hr/>
           <div className="profile-details">
@@ -66,11 +65,9 @@ class Profile extends Component {
             <CalendarToday color={"primary"}/>{" "}
             <span>Joined {dayjs(createdAt).format("MMM YYYY")}</span>
           </div>
-          <Tooltip title={"Logout"} placement={"top"}>
-            <IconButton onClick={this.handleLogout}>
-              <KeyboardReturn color={"primary"}/>
-            </IconButton>
-          </Tooltip>
+          <ScreamButton title={"Logout"} onClick={this.handleLogout}>
+            <KeyboardReturn color={"primary"}/>
+          </ScreamButton>
           <EditDetails/>
         </div>
       </Paper>

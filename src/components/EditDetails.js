@@ -1,20 +1,11 @@
 import React, {Component, Fragment} from "react"
 import PropTypes from "prop-types"
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  TextField,
-  Tooltip,
-  Button,
-  withStyles
-} from "@material-ui/core"
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, withStyles} from "@material-ui/core"
 import {Edit as EditIcon} from "@material-ui/icons"
 import {connect} from "react-redux"
 
 import {editUserDetails} from "../redux/actions/userAction"
+import ScreamButton from "../util/ScreamButton"
 
 const styles = (theme) => ({
   ...theme.customStyles,
@@ -70,11 +61,9 @@ class EditDetails extends Component {
     const {classes} = this.props
     return (
       <Fragment>
-        <Tooltip title={"Edit details"} placement={"top"}>
-          <IconButton onClick={this.handleOpen} className={classes.button}>
-            <EditIcon color={"primary"}/>
-          </IconButton>
-        </Tooltip>
+        <ScreamButton title={"Edit details"} onClick={this.handleOpen} buttonClass={classes.button}>
+          <EditIcon color={"primary"}/>
+        </ScreamButton>
         <Dialog open={this.state.open} onClose={this.handleClose} fullWidth maxWidth={"sm"}>
           <DialogTitle>Edit your details</DialogTitle>
           <DialogContent>

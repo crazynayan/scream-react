@@ -35,7 +35,6 @@ class login extends Component {
   }
 
   render() {
-    console.log(this.props)
     const {classes, ui: {loading}} = this.props
     const {errors} = this.state
     // noinspection JSUnresolvedVariable

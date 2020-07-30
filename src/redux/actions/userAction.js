@@ -41,35 +41,32 @@ export const getUserData = () => async(dispatch) => {
   dispatch({type: LOADING_USER})
   try {
     const response = await axios.get("/user")
-    if (response.status === 200) {
-      dispatch({type: SET_USER, payload: response.data})
-    }
+    dispatch({type: SET_USER, payload: response.data})
   } catch (error) {
-    console.log(error)
+    if (error.response.status === 403)
+      dispatch(logoutUser())
   }
 }
 
 export const uploadImage = (formData) => async (dispatch) => {
   dispatch({type: LOADING_USER})
   try {
-    const response = await axios.post("/user/image", formData)
-    if (response.status !== 200)
-      return console.log(response.data)
+    await axios.post("/user/image", formData)
     dispatch(getUserData())
   } catch(error) {
-    console.log(error)
+    if (error.response.status === 403)
+      dispatch(logoutUser())
   }
 }
 
 export const editUserDetails = (userDetails) => async(dispatch) => {
   dispatch({type: LOADING_USER})
   try {
-    const response = await axios.post("/user", userDetails)
-    if (response.status !== 200)
-      return console.log(response.data)
+    await axios.post("/user", userDetails)
     dispatch(getUserData())
   } catch(error) {
-    console.log(error)
+    if (error.response.status === 403)
+      dispatch(logoutUser())
   }
 }
 
