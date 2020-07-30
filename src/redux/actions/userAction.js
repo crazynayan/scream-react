@@ -31,12 +31,6 @@ export const signupUser = (newUserData, history) => async (dispatch) => {
   }
 }
 
-const setAuthorizationHeader = (token) => {
-  const firebaseToken = `Bearer ${token}`
-  localStorage.setItem("FirebaseToken", firebaseToken)
-  axios.defaults.headers.common["Authorization"] = firebaseToken
-}
-
 export const logoutUser = () => (dispatch) => {
   localStorage.removeItem("FirebaseToken")
   delete axios.defaults.headers.common["Authorization"]
@@ -53,4 +47,22 @@ export const getUserData = () => async(dispatch) => {
   } catch (error) {
     console.log(error)
   }
+}
+
+export const uploadImage = (formData) => async (dispatch) => {
+  dispatch({type: LOADING_USER})
+  try {
+    const response = await axios.post("/user/image", formData)
+    if (response.status !== 200)
+      return console.log(response.data)
+    dispatch(getUserData())
+  } catch(error) {
+    console.error(error)
+  }
+}
+
+const setAuthorizationHeader = (token) => {
+  const firebaseToken = `Bearer ${token}`
+  localStorage.setItem("FirebaseToken", firebaseToken)
+  axios.defaults.headers.common["Authorization"] = firebaseToken
 }
