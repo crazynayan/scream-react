@@ -6,32 +6,9 @@ import axios from "axios"
 import AppIcon from "../images/icon.png"
 
 
-const styles = {
-  form: {
-    textAlign: "center"
-  },
-  image: {
-    margin: "20px auto 20px auto"
-  },
-  pageTitle: {
-    margin: "10px auto 10px auto"
-  },
-  textField: {
-    margin: "10px auto 10px auto"
-  },
-  button: {
-    marginTop: 20,
-    position: "relative"
-  },
-  customError: {
-    color: "red",
-    fontSize: "0.8rem",
-    marginTop: 10
-  },
-  progress: {
-    position: "absolute"
-  }
-}
+const styles = (theme) => ({
+  ...theme.customStyles
+})
 
 class login extends Component {
   state = {
@@ -50,8 +27,10 @@ class login extends Component {
         password: this.state.password
       })
       this.setState({loading: false})
-      if (response.status === 200)
+      if (response.status === 200) {
+        localStorage.setItem("FirebaseToken", `Bearer ${response.data.token}`)
         return this.props.history.push("/")
+      }
       this.setState({errors: response.data})
     } catch (error) {
       this.setState({
