@@ -2,13 +2,14 @@ import React, {Component, Fragment} from "react"
 import {Link} from "react-router-dom"
 import PropTypes from "prop-types"
 import {Button, Link as MuiLink, Paper, Typography, IconButton, Tooltip, withStyles} from "@material-ui/core"
-import {CalendarToday, Link as LinkIcon, LocationOn, Edit as EditIcon} from "@material-ui/icons"
+import {CalendarToday, Link as LinkIcon, LocationOn, Edit as EditIcon, KeyboardReturn} from "@material-ui/icons"
 import {connect} from "react-redux"
 import dayjs from "dayjs"
 
 import {logoutUser, uploadImage} from "../redux/actions/userAction"
+import EditDetails from "./EditDetails"
 
-const styles = (theme) => ({...theme.customStyles});
+const styles = (theme) => ({...theme.customStyles,})
 
 class Profile extends Component {
   handleImageChange = (event) => {
@@ -20,6 +21,10 @@ class Profile extends Component {
 
   handleEditPicture = () => {
     document.getElementById("imageInput").click()
+  }
+
+  handleLogout = () => {
+    this.props.logoutUser()
   }
 
   render() {
@@ -61,6 +66,12 @@ class Profile extends Component {
             <CalendarToday color={"primary"}/>{" "}
             <span>Joined {dayjs(createdAt).format("MMM YYYY")}</span>
           </div>
+          <Tooltip title={"Logout"} placement={"top"}>
+            <IconButton onClick={this.handleLogout}>
+              <KeyboardReturn color={"primary"}/>
+            </IconButton>
+          </Tooltip>
+          <EditDetails/>
         </div>
       </Paper>
     ) : (

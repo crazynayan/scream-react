@@ -57,9 +57,22 @@ export const uploadImage = (formData) => async (dispatch) => {
       return console.log(response.data)
     dispatch(getUserData())
   } catch(error) {
-    console.error(error)
+    console.log(error)
   }
 }
+
+export const editUserDetails = (userDetails) => async(dispatch) => {
+  dispatch({type: LOADING_USER})
+  try {
+    const response = await axios.post("/user", userDetails)
+    if (response.status !== 200)
+      return console.log(response.data)
+    dispatch(getUserData())
+  } catch(error) {
+    console.log(error)
+  }
+}
+
 
 const setAuthorizationHeader = (token) => {
   const firebaseToken = `Bearer ${token}`
