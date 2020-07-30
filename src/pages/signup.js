@@ -1,9 +1,10 @@
 import React, {Component} from "react"
 import PropTypes from "prop-types"
 import {Link} from "react-router-dom"
-import {withStyles, Grid, Typography, TextField, Button, CircularProgress} from "@material-ui/core"
-import axios from "axios"
+import {Button, CircularProgress, Grid, TextField, Typography, withStyles} from "@material-ui/core"
+import {connect} from "react-redux"
 import AppIcon from "../images/icon.png"
+import {signupUser} from "../redux/actions/userAction"
 
 
 const styles = (theme) => ({
@@ -16,32 +17,22 @@ class signup extends Component {
     password: "",
     confirmPassword: "",
     handle: "",
-    loading: false,
     errors: {}
+  }
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    if (nextProps.ui.errors)
+      this.setState({errors: nextProps.ui.errors})
   }
 
   handleSubmit = async (event) => {
     event.preventDefault()
-    this.setState({loading: true})
-    try {
-      const response = await axios.post("/signup", {
-        email: this.state.email,
-        password: this.state.password,
-        confirmPassword: this.state.confirmPassword,
-        handle: this.state.handle
-      })
-      this.setState({loading: false})
-      if (response.status === 200) {
-        localStorage.setItem("FirebaseToken", `Bearer ${response.data.token}`)
-        return this.props.history.push("/")
-      }
-      this.setState({errors: response.data})
-    } catch (error) {
-      this.setState({
-        errors: error.response.data,
-        loading: false
-      })
-    }
+    this.props.signupUser({
+      email: this.state.email,
+      password: this.state.password,
+      confirmPassword: this.state.confirmPassword,
+      handle: this.state.handle
+    }, this.props.history)
   }
 
   handleChange = (event) => {
@@ -51,8 +42,8 @@ class signup extends Component {
   }
 
   render() {
-    const {classes} = this.props;
-    const {errors, loading} = this.state
+    const {classes, ui: {loading}} = this.props;
+    const {errors} = this.state
     // noinspection JSUnresolvedVariable
     return (
       <Grid container direction={"column"} alignItems={"center"} justify={"center"} className={classes.form}>
@@ -99,7 +90,12 @@ class signup extends Component {
 }
 
 signup.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  ui: PropTypes.object.isRequired,
+  signupUser: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(signup)
+const mapStateToProps = (state) => ({user: state.user, ui: state.ui})
+
+export default connect(mapStateToProps, {signupUser})(withStyles(styles)(signup))
