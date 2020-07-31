@@ -98,15 +98,17 @@ export default {
       left: "90%"
     },
     submitButton: {
-      position: "relative"
+      position: "relative",
+      float: "right",
+      marginTop: 10
     },
     progressSpinner: {
       position: "absolute"
     },
     closeButton : {
       position: "absolute",
-      left: "90%",
-      top: "10%"
+      left: "91%",
+      top: "1%"
     }
   }
 }
