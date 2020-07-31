@@ -81,6 +81,5 @@ login.propTypes = {
 }
 
 const mapStateToProps = (state) => ({user: state.user, ui: state.ui})
-const mapActionsToProps = {loginUser}
 
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(login))
+export default connect(mapStateToProps, {loginUser})(withStyles(styles)(login))
