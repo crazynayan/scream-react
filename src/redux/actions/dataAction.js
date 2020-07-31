@@ -13,7 +13,7 @@ export const getScreams = () => async(dispatch) => {
 
 export const likeScream = (screamId) => async(dispatch) => {
   try {
-    const response = await axios.get(`/scream/${screamId}/like`)
+    const response = await axios.post(`/scream/${screamId}/like`)
     dispatch({type: LIKE_SCREAM, payload: response.data})
   } catch(error) {
     console.log(error)
@@ -22,7 +22,7 @@ export const likeScream = (screamId) => async(dispatch) => {
 
 export const unLikeScream = (screamId) => async(dispatch) => {
   try {
-    const response = await axios.get(`/scream/${screamId}/unlike`)
+    const response = await axios.post(`/scream/${screamId}/unlike`)
     dispatch({type: UNLIKE_SCREAM, payload: response.data})
   } catch(error) {
     console.log(error)
