@@ -1,4 +1,4 @@
-import {LIKE_SCREAM, LOADING_DATA, SET_SCREAMS, UNLIKE_SCREAM, DELETE_SCREAM} from "../types"
+import {LIKE_SCREAM, LOADING_DATA, SET_SCREAMS, UNLIKE_SCREAM, DELETE_SCREAM, POST_SCREAM} from "../types"
 
 const initialState = {
   screams: [],
@@ -22,6 +22,8 @@ export default function(state=initialState, action) {
       index = state.screams.findIndex((scream) => scream.screamId === action.payload)
       state.screams.splice(index, 1)
       return {...state}
+    case POST_SCREAM:
+      return {...state, screams: [action.payload, ...state.screams]}
     default:
       return state
   }

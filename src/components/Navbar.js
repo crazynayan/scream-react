@@ -1,11 +1,12 @@
 import React, {Component, Fragment} from "react"
 import {Link} from "react-router-dom"
-import {AppBar, Toolbar, Button} from "@material-ui/core"
-import {Add as AddIcon, Home as HomeIcon, Notifications} from "@material-ui/icons"
+import {AppBar, Button, Toolbar} from "@material-ui/core"
+import {Home as HomeIcon, Notifications} from "@material-ui/icons"
 import {connect} from "react-redux"
 import PropTypes from "prop-types"
 
 import ScreamButton from "../util/ScreamButton"
+import PostScream from "./PostScream"
 
 class Navbar extends Component {
   render() {
@@ -13,11 +14,9 @@ class Navbar extends Component {
     return (
       <AppBar>
         <Toolbar className={"nav-container"}>
-          {authenticated ?
+          {authenticated ? (
             <Fragment>
-              <ScreamButton title={"Post a Scream"}>
-                <AddIcon/>
-              </ScreamButton>
+              <PostScream/>
               <Link to={"/"}>
                 <ScreamButton title={"Home"}>
                   <HomeIcon/>
@@ -26,12 +25,14 @@ class Navbar extends Component {
               <ScreamButton title={"Notifications"}>
                 <Notifications/>
               </ScreamButton>
-            </Fragment> : <Fragment>
+            </Fragment>
+          ) : (
+            <Fragment>
               <Button color={"inherit"} component={Link} to={"/login"}>Login</Button>
               <Button color={"inherit"} component={Link} to={"/"}>Home</Button>
               <Button color={"inherit"} component={Link} to={"/signup"}>Signup</Button>
             </Fragment>
-          }
+          )}
         </Toolbar>
       </AppBar>
     );
