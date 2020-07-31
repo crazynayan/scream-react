@@ -91,6 +91,11 @@ export default {
       '& a': {
         margin: '20px 10px'
       }
+    },
+    deleteButton: {
+      position: "absolute",
+      top: "10%",
+      left: "90%"
     }
   }
 }

@@ -10,7 +10,7 @@ import {logoutUser, uploadImage} from "../redux/actions/userAction"
 import EditDetails from "./EditDetails"
 import ScreamButton from "../util/ScreamButton";
 
-const styles = (theme) => ({...theme.customStyles,})
+const styles = (theme) => ({...theme.customStyles})
 
 class Profile extends Component {
   handleImageChange = (event) => {

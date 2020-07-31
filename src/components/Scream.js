@@ -8,10 +8,12 @@ import {connect} from "react-redux"
 import {Chat as ChatIcon, Favorite, FavoriteBorder} from "@material-ui/icons"
 import {likeScream, unLikeScream} from "../redux/actions/dataAction"
 import ScreamButton from "../util/ScreamButton"
+import DeleteScream from "./DeleteScream"
 
 
 const styles = {
   card: {
+    position: "relative",
     display: "flex",
     marginBottom: 20,
   },
@@ -41,8 +43,8 @@ class Scream extends Component {
   render() {
     dayjs.extend(relativeTime)
     const {
-      classes, scream: {body, createdAt, imageUrl, userHandle, likeCount, commentCount},
-      user: {authenticated}
+      classes, scream: {body, createdAt, imageUrl, userHandle, likeCount, commentCount, screamId},
+      user: {authenticated, credentials: {handle}}
     } = this.props
     return (
       <Card className={classes.card}>
@@ -50,6 +52,7 @@ class Scream extends Component {
         <CardContent className={classes.content}>
           <Typography variant={"h5"} component={Link} to={`/users/${userHandle}`}
                       color={"primary"}>{userHandle}</Typography>
+          {authenticated && userHandle === handle ? <DeleteScream screamId={screamId}/> : null}
           <Typography variant={"body2"} color={"textSecondary"}>{dayjs(createdAt).fromNow()}</Typography>
           <Typography variant={"body1"}>{body}</Typography>
           {!authenticated ? (
