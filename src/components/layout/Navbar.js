@@ -5,8 +5,8 @@ import {Home as HomeIcon, Notifications} from "@material-ui/icons"
 import {connect} from "react-redux"
 import PropTypes from "prop-types"
 
-import ScreamButton from "../util/ScreamButton"
-import PostScream from "./PostScream"
+import ScreamButton from "../../util/ScreamButton"
+import PostScream from "../scream/PostScream"
 
 class Navbar extends Component {
   render() {

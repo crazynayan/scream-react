@@ -5,9 +5,10 @@ import {connect} from "react-redux"
 import {CircularProgress, Dialog, DialogContent, Grid, Typography, withStyles} from "@material-ui/core"
 import {Chat as ChatIcon, Close as CloseIcon, UnfoldMore} from "@material-ui/icons"
 import dayjs from "dayjs"
-import {closeDialog, getScream, openDialog} from "../redux/actions/dataAction"
-import ScreamButton from "../util/ScreamButton"
+import {closeDialog, getScream, openDialog} from "../../redux/actions/dataAction"
+import ScreamButton from "../../util/ScreamButton"
 import LikeButton from "./LikeButton"
+import Comment from "./Comment";
 
 
 class ScreamDialog extends Component {
@@ -19,7 +20,7 @@ class ScreamDialog extends Component {
 
   render() {
     const {
-      classes, scream: {body, createdAt, imageUrl, userHandle, screamId, likeCount, commentCount},
+      classes, scream: {body, createdAt, imageUrl, userHandle, screamId, likeCount, commentCount, comments},
       ui: {loading, dialogState}, closeDialog
     } = this.props
     return (
@@ -60,6 +61,8 @@ class ScreamDialog extends Component {
                   </ScreamButton>
                   <span>{commentCount} comments</span>
                 </Grid>
+                {<hr className={classes.visibleSeparator}/>}
+                <Comment comments={comments}/>
               </Grid>
             )}
           </DialogContent>

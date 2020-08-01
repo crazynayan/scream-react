@@ -4,8 +4,8 @@ import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, wi
 import {Edit as EditIcon} from "@material-ui/icons"
 import {connect} from "react-redux"
 
-import {editUserDetails} from "../redux/actions/userAction"
-import ScreamButton from "../util/ScreamButton"
+import {editUserDetails} from "../../redux/actions/userAction"
+import ScreamButton from "../../util/ScreamButton"
 
 const styles = (theme) => ({
   ...theme.customStyles,

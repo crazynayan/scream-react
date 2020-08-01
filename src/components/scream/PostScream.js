@@ -4,8 +4,8 @@ import {Button, Dialog, CircularProgress, DialogContent, DialogTitle, TextField,
 import {Add as AddIcon, Close as CloseIcon} from "@material-ui/icons"
 import {connect} from "react-redux"
 
-import {postScream, openDialog, closeDialog} from "../redux/actions/dataAction"
-import ScreamButton from "../util/ScreamButton"
+import {postScream, openDialog, closeDialog} from "../../redux/actions/dataAction"
+import ScreamButton from "../../util/ScreamButton"
 
 class PostScream extends Component {
   state = {

@@ -3,8 +3,8 @@ import PropTypes from "prop-types"
 import {connect} from "react-redux"
 import {Link} from "react-router-dom"
 import {Favorite, FavoriteBorder} from "@material-ui/icons"
-import ScreamButton from "../util/ScreamButton"
-import {likeScream, unLikeScream} from "../redux/actions/dataAction"
+import ScreamButton from "../../util/ScreamButton"
+import {likeScream, unLikeScream} from "../../redux/actions/dataAction"
 
 class LikeButton extends Component {
   likedScream = () => {

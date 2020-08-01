@@ -13,7 +13,7 @@ import {SET_AUTHENTICATED} from "./redux/types"
 import {logoutUser, getUserData} from "./redux/actions/userAction";
 // Components
 import AuthRoute from "./util/AuthRoute"
-import Navbar from "./components/Navbar"
+import Navbar from "./components/layout/Navbar"
 // Pages
 import home from "./pages/home"
 import login from "./pages/login"

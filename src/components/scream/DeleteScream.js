@@ -3,8 +3,8 @@ import PropTypes from "prop-types"
 import {connect} from "react-redux"
 import {Button, Dialog, DialogTitle, DialogActions, withStyles} from "@material-ui/core"
 import {DeleteOutline} from "@material-ui/icons"
-import ScreamButton from "../util/ScreamButton"
-import {deleteScream} from "../redux/actions/dataAction"
+import ScreamButton from "../../util/ScreamButton"
+import {deleteScream} from "../../redux/actions/dataAction"
 
 
 class DeleteScream extends Component {
