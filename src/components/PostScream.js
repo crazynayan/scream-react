@@ -48,7 +48,7 @@ class PostScream extends Component {
                          placeholder={"Scream at your fellow friends"} onChange={this.handleChange} fullWidth
                          className={classes.textField} error={!!this.getError()} helperText={this.getError()}/>
               <Button type={"submit"} variant={"contained"} color={"primary"} className={classes.submitButton}
-              disable={loading}>
+              disabled={loading}>
                 Submit
                 {loading && <CircularProgress size={30} className={classes.progressSpinner}/>}
               </Button>

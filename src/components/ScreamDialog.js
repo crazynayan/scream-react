@@ -3,10 +3,11 @@ import PropTypes from "prop-types"
 import {Link} from "react-router-dom"
 import {connect} from "react-redux"
 import {CircularProgress, Dialog, DialogContent, Grid, Typography, withStyles} from "@material-ui/core"
-import {Close as CloseIcon, UnfoldMore} from "@material-ui/icons"
+import {Chat as ChatIcon, Close as CloseIcon, UnfoldMore} from "@material-ui/icons"
 import dayjs from "dayjs"
 import {closeDialog, getScream, openDialog} from "../redux/actions/dataAction"
 import ScreamButton from "../util/ScreamButton"
+import LikeButton from "./LikeButton"
 
 
 class ScreamDialog extends Component {
@@ -18,7 +19,7 @@ class ScreamDialog extends Component {
 
   render() {
     const {
-      classes, scream: { body, createdAt, imageUrl, userHandle},
+      classes, scream: {body, createdAt, imageUrl, userHandle, screamId, likeCount, commentCount},
       ui: {loading, dialogState}, closeDialog
     } = this.props
     return (
@@ -31,7 +32,11 @@ class ScreamDialog extends Component {
             <CloseIcon/>
           </ScreamButton>
           <DialogContent className={classes.dialogContent}>
-            {loading ? <CircularProgress size={200}/> : (
+            {loading ? (
+              <div className={classes.spinnerDiv}>
+                <CircularProgress size={200} thickness={2}/>
+              </div>
+            ) : (
               <Grid container spacing={2}>
                 <Grid item sm={5}>
                   <img src={imageUrl} alt={"Profile"} className={classes.profileImage}/>
@@ -48,6 +53,12 @@ class ScreamDialog extends Component {
                   <Typography variant={"body1"}>
                     {body}
                   </Typography>
+                  <LikeButton screamId={screamId}/>
+                  <span>{likeCount} Likes</span>
+                  <ScreamButton title={"Comments"}>
+                    <ChatIcon color={"primary"}/>
+                  </ScreamButton>
+                  <span>{commentCount} comments</span>
                 </Grid>
               </Grid>
             )}

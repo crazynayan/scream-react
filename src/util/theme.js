@@ -118,6 +118,15 @@ export default {
     },
     dialogContent : {
       padding: 20
+    },
+    expandButton : {
+      position: "absolute",
+      left: "90%"
+    },
+    spinnerDiv: {
+      textAlign: "center",
+      marginTop: 50,
+      marginBottom: 50
     }
   }
 }
