@@ -109,6 +109,15 @@ export default {
       position: "absolute",
       left: "91%",
       top: "1%"
+    },
+    profileImage: {
+      width: 200,
+      height: 200,
+      borderRadius: "50%",
+      objectFit: "cover"
+    },
+    dialogContent : {
+      padding: 20
     }
   }
 }
