@@ -9,6 +9,7 @@ import {closeDialog, getScream, openDialog} from "../../redux/actions/dataAction
 import ScreamButton from "../../util/ScreamButton"
 import LikeButton from "./LikeButton"
 import Comment from "./Comment";
+import CommentForm from "./CommentForm";
 
 
 class ScreamDialog extends Component {
@@ -62,6 +63,7 @@ class ScreamDialog extends Component {
                   <span>{commentCount} comments</span>
                 </Grid>
                 {<hr className={classes.visibleSeparator}/>}
+                <CommentForm screamId={screamId}/>
                 <Comment comments={comments}/>
               </Grid>
             )}

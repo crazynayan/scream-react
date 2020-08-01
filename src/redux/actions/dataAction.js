@@ -10,7 +10,8 @@ import {
   SET_ERRORS,
   SET_SCREAMS,
   SET_SCREAM,
-  UNLIKE_SCREAM
+  UNLIKE_SCREAM,
+  SUBMIT_COMMENT
 } from "../types"
 import axios from "axios"
 
@@ -59,6 +60,16 @@ export const unLikeScream = (screamId) => async (dispatch) => {
   try {
     const response = await axios.post(`/scream/${screamId}/unlike`)
     dispatch({type: UNLIKE_SCREAM, payload: response.data})
+    dispatch({type: CLEAR_ERRORS})
+  } catch (error) {
+    dispatch({type: SET_ERRORS, payload: error.response.data})
+  }
+}
+
+export const submitComment = (screamId, commentData) => async(dispatch) => {
+  try {
+    const response = await axios.post(`/scream/${screamId}/comment`, commentData)
+    dispatch({type: SUBMIT_COMMENT, payload: response.data})
     dispatch({type: CLEAR_ERRORS})
   } catch (error) {
     dispatch({type: SET_ERRORS, payload: error.response.data})
