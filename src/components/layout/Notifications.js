@@ -45,7 +45,7 @@ function Notifications(props) {
       return (
         <MenuItem key={createdAt} onClick={handleClose}>
           {icon}
-          <Typography component={Link} color={"initial"} variant={"body1"}
+          <Typography component={Link} color={"primary"} variant={"body1"}
                       to={`/users/${notification.recipient}/scream/${notification.screamId}`}>
             {notification.sender} {verb} your scream {time}
           </Typography>
