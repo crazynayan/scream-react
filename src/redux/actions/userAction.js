@@ -1,4 +1,12 @@
-import {SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNAUTHENTICATED, LOADING_USER} from "../types"
+import {
+  SET_USER,
+  SET_ERRORS,
+  CLEAR_ERRORS,
+  LOADING_UI,
+  SET_UNAUTHENTICATED,
+  LOADING_USER,
+  MARK_NOTIFICATIONS_READ
+} from "../types"
 import axios from "axios"
 
 export const loginUser = (userData, history) => async (dispatch) => {
@@ -67,6 +75,15 @@ export const editUserDetails = (userDetails) => async(dispatch) => {
   } catch(error) {
     if (error.response.status === 403)
       dispatch(logoutUser())
+  }
+}
+
+export const markNotificationRead = (notificationsIds) => async(dispatch) => {
+  try {
+    await axios.post("/notifications", notificationsIds)
+    dispatch({type: MARK_NOTIFICATIONS_READ})
+  } catch(error) {
+    console.log(error)
   }
 }
 
