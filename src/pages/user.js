@@ -9,11 +9,15 @@ import StaticProfile from "../components/profile/StaticProfile"
 
 class user extends Component {
   state = {
-    profile: null
+    profile: null,
+    screamId: null
   }
 
   async componentDidMount() {
     const handle = this.props.match.params.handle
+    const screamId = this.props.match.params.screamId
+    if (screamId)
+      this.setState({screamId: screamId})
     this.props.getAnyUserData(handle)
     try {
       const response = await axios.get(`/user/${handle}`)
@@ -25,13 +29,15 @@ class user extends Component {
 
   render() {
     const {screams, loading} = this.props.data
+    const {screamId} = this.state
     return (
       <Grid container spacing={2}>
         <Grid item sm={8} xs={12}>
           {!loading ? (
-            screams !== null ?
-              screams.map(scream => <Scream key={scream.screamId} scream={scream}/>)
-             : <p>No screams for this user</p>
+            screams !== null ? (
+              screams.map(scream => <Scream key={scream.screamId} scream={scream}
+                                            openDialog={screamId && scream.screamId === screamId}/>)
+            ) : <p>No screams for this user</p>
           ) : <p>Loading...</p>}
         </Grid>
         <Grid item sm={4} xs={12}>

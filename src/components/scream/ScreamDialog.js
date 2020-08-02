@@ -8,29 +8,42 @@ import dayjs from "dayjs"
 import {closeCommentDialog, getScream, openCommentDialog} from "../../redux/actions/dataAction"
 import ScreamButton from "../../util/ScreamButton"
 import LikeButton from "./LikeButton"
-import Comment from "./Comment";
-import CommentForm from "./CommentForm";
+import Comment from "./Comment"
+import CommentForm from "./CommentForm"
 
 
 class ScreamDialog extends Component {
-
   handleOpen = () => {
-    this.props.openCommentDialog()
-    this.props.getScream(this.props.screamId)
+    const {userHandle, screamId} = this.props
+    const newPath = `/users/${userHandle}/scream/${screamId}`
+    const oldPath = newPath ===  window.location.pathname ? `/users/${userHandle}` : window.location.pathname
+    window.history.pushState(null, null, newPath)
+    this.props.openCommentDialog(oldPath)
+    this.props.getScream(screamId)
+  }
+
+  handleClose = () => {
+    window.history.pushState(null, null, this.props.ui.oldPath)
+    this.props.closeCommentDialog()
+  }
+
+  componentDidMount() {
+    if (this.props.openDialog)
+      this.handleOpen()
   }
 
   render() {
     const {
       classes, scream: {body, createdAt, imageUrl, userHandle, screamId, likeCount, commentCount, comments},
-      ui: {loading, dialogStateOfComment}, closeCommentDialog
+      ui: {loading, dialogStateOfComment}
     } = this.props
     return (
       <Fragment>
         <ScreamButton onClick={this.handleOpen} title={"Expand scream"} tipClass={classes.expandButton}>
           <UnfoldMore color={"primary"}/>
         </ScreamButton>
-        <Dialog open={dialogStateOfComment} onClose={closeCommentDialog} fullWidth maxWidth={"sm"}>
-          <ScreamButton title={"Close"} onClick={closeCommentDialog} tipClass={classes.closeButton}>
+        <Dialog open={dialogStateOfComment} onClose={this.handleClose} fullWidth maxWidth={"sm"}>
+          <ScreamButton title={"Close"} onClick={this.handleClose} tipClass={classes.closeButton}>
             <CloseIcon/>
           </ScreamButton>
           <DialogContent className={classes.dialogContent}>

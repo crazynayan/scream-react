@@ -5,18 +5,20 @@ import {
   LOADING_UI,
   OPEN_COMMENT_DIALOG,
   OPEN_SCREAM_DIALOG,
-  SET_ERRORS
+  SET_ERRORS,
+  SET_OLD_PATH
 } from "../types"
 
 const initialState = {
   loading: false,
   errors: null,
   dialogStateOfScream: false,
-  dialogStateOfComment: false
+  dialogStateOfComment: false,
+  oldPath: ""
 }
 
-export default function(state=initialState, action) {
-  switch(action.type) {
+export default function (state = initialState, action) {
+  switch (action.type) {
     case SET_ERRORS:
       return {...state, loading: false, errors: action.payload}
     case CLEAR_ERRORS:
@@ -31,6 +33,8 @@ export default function(state=initialState, action) {
       return {...state, dialogStateOfComment: true}
     case CLOSE_COMMENT_DIALOG:
       return {...state, dialogStateOfComment: false, errors: null, loading: false}
+    case SET_OLD_PATH:
+      return {...state, oldPath: action.payload}
     default:
       return state
   }

@@ -13,7 +13,8 @@ import {
   SET_SCREAMS,
   SET_SCREAM,
   UNLIKE_SCREAM,
-  SUBMIT_COMMENT
+  SUBMIT_COMMENT,
+  SET_OLD_PATH
 } from "../types"
 import axios from "axios"
 
@@ -105,7 +106,8 @@ export const closeScreamDialog = () => (dispatch) => {
   dispatch({type: CLOSE_SCREAM_DIALOG})
 }
 
-export const openCommentDialog = () => (dispatch) => {
+export const openCommentDialog = (oldPath) => (dispatch) => {
+  dispatch({type: SET_OLD_PATH, payload: oldPath})
   dispatch({type: OPEN_COMMENT_DIALOG})
 }
 
