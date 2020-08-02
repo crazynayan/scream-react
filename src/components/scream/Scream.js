@@ -12,21 +12,6 @@ import ScreamDialog from "./ScreamDialog"
 import LikeButton from "./LikeButton"
 
 
-const styles = {
-  card: {
-    position: "relative",
-    display: "flex",
-    marginBottom: 20,
-  },
-  image: {
-    minWidth: 200,
-  },
-  content: {
-    padding: 25,
-    objectFit: "cover",
-  }
-}
-
 class Scream extends Component {
   render() {
     dayjs.extend(relativeTime)
@@ -64,5 +49,7 @@ Scream.propTypes = {
 }
 
 const mapStateToProps = state => ({user: state.user})
+
+const styles = theme =>({...theme.customStyles.screamStyles})
 
 export default connect(mapStateToProps)(withStyles(styles)(Scream))

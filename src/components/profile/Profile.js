@@ -9,6 +9,7 @@ import dayjs from "dayjs"
 import {logoutUser, uploadImage} from "../../redux/actions/userAction"
 import EditDetails from "./EditDetails"
 import ScreamButton from "../../util/ScreamButton";
+import ProfileSkeleton from "../../util/ProfileSkeleton"
 
 const styles = (theme) => ({...theme.customStyles})
 
@@ -31,61 +32,63 @@ class Profile extends Component {
   render() {
     const {classes, user: {credentials, loading, authenticated}} = this.props
     const {handle, createdAt, imageUrl, bio, website, location} = credentials
-    return !loading ? (authenticated ? (
-      <Paper className={classes.paper}>
-        <div className={classes.profile}>
-          <div className="image-wrapper">
-            <img src={imageUrl} alt={"profile"} className={"profile-image"}/>
-            <input type={"file"} id={"imageInput"} hidden={"hidden"} onChange={this.handleImageChange}/>
-            <ScreamButton title={"Edit profile picture"} onClick={this.handleEditPicture} buttonClass={"button"}>
-              <EditIcon color={"primary"}/>
-            </ScreamButton>
-          </div>
-          <hr/>
-          <div className="profile-details">
-            <MuiLink component={Link} to={`/users/${handle}`} color={"primary"} variant={"h5"}>
-              @{handle}
-            </MuiLink>
+    return !loading ? (
+      authenticated ? (
+        <Paper className={classes.paper}>
+          <div className={classes.profile}>
+            <div className="image-wrapper">
+              <img src={imageUrl} alt={"profile"} className={"profile-image"}/>
+              <input type={"file"} id={"imageInput"} hidden={"hidden"} onChange={this.handleImageChange}/>
+              <ScreamButton title={"Edit profile picture"} onClick={this.handleEditPicture} buttonClass={"button"}>
+                <EditIcon color={"primary"}/>
+              </ScreamButton>
+            </div>
             <hr/>
-            {bio && <Fragment>
-              <Typography variant={"body2"}>{bio}</Typography>
+            <div className="profile-details">
+              <MuiLink component={Link} to={`/users/${handle}`} color={"primary"} variant={"h5"}>
+                @{handle}
+              </MuiLink>
               <hr/>
-            </Fragment>}
-            {location && <Fragment>
-              <LocationOn color={"primary"}/><span>{location}</span>
-              <hr/>
-            </Fragment>}
-            {website && <Fragment>
-              <LinkIcon color={"primary"}/>
-              <a href={website} target={"_blank"} rel={"noopener noreferrer"}>
-                {"  "}{website}
-              </a>
-              <hr/>
-            </Fragment>}
-            <CalendarToday color={"primary"}/>{" "}
-            <span>Joined {dayjs(createdAt).format("MMM YYYY")}</span>
+              {bio && <Fragment>
+                <Typography variant={"body2"}>{bio}</Typography>
+                <hr/>
+              </Fragment>}
+              {location && <Fragment>
+                <LocationOn color={"primary"}/><span>{location}</span>
+                <hr/>
+              </Fragment>}
+              {website && <Fragment>
+                <LinkIcon color={"primary"}/>
+                <a href={website} target={"_blank"} rel={"noopener noreferrer"}>
+                  {"  "}{website}
+                </a>
+                <hr/>
+              </Fragment>}
+              <CalendarToday color={"primary"}/>{" "}
+              <span>Joined {dayjs(createdAt).format("MMM YYYY")}</span>
+            </div>
+            <ScreamButton title={"Logout"} onClick={this.handleLogout}>
+              <KeyboardReturn color={"primary"}/>
+            </ScreamButton>
+            <EditDetails/>
           </div>
-          <ScreamButton title={"Logout"} onClick={this.handleLogout}>
-            <KeyboardReturn color={"primary"}/>
-          </ScreamButton>
-          <EditDetails/>
-        </div>
-      </Paper>
-    ) : (
-      <Paper className={classes.paper}>
-        <Typography variant={"body2"} align={"center"}>
-          No profile found, please login again
-        </Typography>
-        <div className={classes.buttons}>
-          <Button variant={"contained"} color={"primary"} component={Link} to={"/login"}>
-            Login
-          </Button>
-          <Button variant={"contained"} color={"secondary"} component={Link} to={"/signup"}>
-            Signup
-          </Button>
-        </div>
-      </Paper>
-    )) : (<p>Loading...</p>)
+        </Paper>
+      ) : (
+        <Paper className={classes.paper}>
+          <Typography variant={"body2"} align={"center"}>
+            No profile found, please login again
+          </Typography>
+          <div className={classes.buttons}>
+            <Button variant={"contained"} color={"primary"} component={Link} to={"/login"}>
+              Login
+            </Button>
+            <Button variant={"contained"} color={"secondary"} component={Link} to={"/signup"}>
+              Signup
+            </Button>
+          </div>
+        </Paper>
+      )
+    ) : <ProfileSkeleton/>
   }
 }
 

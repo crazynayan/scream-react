@@ -50,6 +50,21 @@ export default {
     paper: {
       padding: 20
     },
+    screamStyles: {
+      card: {
+        position: "relative",
+        display: "flex",
+        marginBottom: 20,
+      },
+      image: {
+        minWidth: 200,
+      },
+      content: {
+        padding: 25,
+        objectFit: "cover",
+      }
+
+    },
     profile: {
       '& .image-wrapper': {
         textAlign: 'center',
@@ -105,7 +120,7 @@ export default {
     progressSpinner: {
       position: "absolute"
     },
-    closeButton : {
+    closeButton: {
       position: "absolute",
       left: "91%",
       top: "1%"
@@ -116,10 +131,10 @@ export default {
       borderRadius: "50%",
       objectFit: "cover"
     },
-    dialogContent : {
+    dialogContent: {
       padding: 20
     },
-    expandButton : {
+    expandButton: {
       position: "absolute",
       left: "90%"
     },
@@ -134,8 +149,8 @@ export default {
       objectFit: "cover",
       borderRadius: "50%"
     },
-    commentData : {
-      marginLeft : 20
+    commentData: {
+      marginLeft: 20
     },
     card: {
       display: 'flex',
@@ -153,7 +168,7 @@ export default {
     handle: {
       width: 60,
       height: 18,
-      backgroundColor: this.palette.primary.main,
+      backgroundColor: "#00bcd4",
       marginBottom: 7
     },
     date: {
@@ -173,6 +188,26 @@ export default {
       width: '50%',
       backgroundColor: 'rgba(0,0,0, 0.6)',
       marginBottom: 10
+    },
+    profileSkeleton: {
+      handle: {
+        height: 20,
+        backgroundColor: "#00bcd4",
+        width: 60,
+        margin: '0 auto 7px auto'
+      },
+      fullLine: {
+        height: 15,
+        backgroundColor: 'rgba(0,0,0,0.6)',
+        width: '100%',
+        marginBottom: 10
+      },
+      halfLine: {
+        height: 15,
+        backgroundColor: 'rgba(0,0,0,0.6)',
+        width: '50%',
+        marginBottom: 10
+      }
     }
   }
 }
