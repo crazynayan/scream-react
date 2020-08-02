@@ -4,7 +4,7 @@ import {Button, Dialog, CircularProgress, DialogContent, DialogTitle, TextField,
 import {Add as AddIcon, Close as CloseIcon} from "@material-ui/icons"
 import {connect} from "react-redux"
 
-import {postScream, openDialog, closeDialog} from "../../redux/actions/dataAction"
+import {postScream, openScreamDialog, closeScreamDialog} from "../../redux/actions/dataAction"
 import ScreamButton from "../../util/ScreamButton"
 
 class PostScream extends Component {
@@ -23,7 +23,7 @@ class PostScream extends Component {
 
   handleOpen = () => {
     this.setState({body: ""})
-    this.props.openDialog()
+    this.props.openScreamDialog()
   }
 
   getError = () => {
@@ -31,14 +31,14 @@ class PostScream extends Component {
   }
 
   render() {
-    const {classes, ui: {loading, dialogState}, closeDialog} = this.props
+    const {classes, ui: {loading, dialogStateOfScream}, closeScreamDialog} = this.props
     return (
       <Fragment>
         <ScreamButton onClick={this.handleOpen} title={"Post a Scream"}>
           <AddIcon/>
         </ScreamButton>
-        <Dialog open={dialogState} onClose={closeDialog} fullWidth maxWidth={"sm"}>
-          <ScreamButton title={"Close"} onClick={closeDialog} tipClass={classes.closeButton}>
+        <Dialog open={dialogStateOfScream} onClose={closeScreamDialog} fullWidth maxWidth={"sm"}>
+          <ScreamButton title={"Close"} onClick={closeScreamDialog} tipClass={classes.closeButton}>
             <CloseIcon/>
           </ScreamButton>
           <DialogTitle>Post a new scream</DialogTitle>
@@ -62,8 +62,8 @@ class PostScream extends Component {
 
 PostScream.propTypes = {
   postScream: PropTypes.func.isRequired,
-  openDialog: PropTypes.func.isRequired,
-  closeDialog: PropTypes.func.isRequired,
+  openScreamDialog: PropTypes.func.isRequired,
+  closeScreamDialog: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired
 }
@@ -71,5 +71,6 @@ PostScream.propTypes = {
 const styles = (theme) => ({...theme.customStyles})
 
 const mapStateToProps = (state) => ({ui: state.ui})
+const mapActionToProps = {postScream, openScreamDialog, closeScreamDialog}
 
-export default connect(mapStateToProps, {postScream, openDialog, closeDialog})(withStyles(styles)(PostScream))
+export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(PostScream))

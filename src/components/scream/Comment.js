@@ -43,7 +43,8 @@ class Comment extends Component {
 }
 
 Comment.propTypes = {
-  comments: PropTypes.array.isRequired
+  comments: PropTypes.array.isRequired,
+  classes: PropTypes.object.isRequired
 }
 
 const styles = theme => ({...theme.customStyles})

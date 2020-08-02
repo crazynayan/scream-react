@@ -5,7 +5,7 @@ import {connect} from "react-redux"
 import {CircularProgress, Dialog, DialogContent, Grid, Typography, withStyles} from "@material-ui/core"
 import {Chat as ChatIcon, Close as CloseIcon, UnfoldMore} from "@material-ui/icons"
 import dayjs from "dayjs"
-import {closeDialog, getScream, openDialog} from "../../redux/actions/dataAction"
+import {closeCommentDialog, getScream, openCommentDialog} from "../../redux/actions/dataAction"
 import ScreamButton from "../../util/ScreamButton"
 import LikeButton from "./LikeButton"
 import Comment from "./Comment";
@@ -15,22 +15,22 @@ import CommentForm from "./CommentForm";
 class ScreamDialog extends Component {
 
   handleOpen = () => {
-    this.props.openDialog()
+    this.props.openCommentDialog()
     this.props.getScream(this.props.screamId)
   }
 
   render() {
     const {
       classes, scream: {body, createdAt, imageUrl, userHandle, screamId, likeCount, commentCount, comments},
-      ui: {loading, dialogState}, closeDialog
+      ui: {loading, dialogStateOfComment}, closeCommentDialog
     } = this.props
     return (
       <Fragment>
         <ScreamButton onClick={this.handleOpen} title={"Expand scream"} tipClass={classes.expandButton}>
           <UnfoldMore color={"primary"}/>
         </ScreamButton>
-        <Dialog open={dialogState} onClose={closeDialog} fullWidth maxWidth={"sm"}>
-          <ScreamButton title={"Close"} onClick={closeDialog} tipClass={classes.closeButton}>
+        <Dialog open={dialogStateOfComment} onClose={closeCommentDialog} fullWidth maxWidth={"sm"}>
+          <ScreamButton title={"Close"} onClick={closeCommentDialog} tipClass={classes.closeButton}>
             <CloseIcon/>
           </ScreamButton>
           <DialogContent className={classes.dialogContent}>
@@ -76,8 +76,8 @@ class ScreamDialog extends Component {
 
 ScreamDialog.propTypes = {
   getScream: PropTypes.func.isRequired,
-  openDialog: PropTypes.func.isRequired,
-  closeDialog: PropTypes.func.isRequired,
+  openCommentDialog: PropTypes.func.isRequired,
+  closeCommentDialog: PropTypes.func.isRequired,
   screamId: PropTypes.string.isRequired,
   userHandle: PropTypes.string.isRequired,
   ui: PropTypes.object.isRequired,
@@ -85,7 +85,7 @@ ScreamDialog.propTypes = {
 }
 
 const mapStateToProps = state => ({ui: state.ui, scream: state.data.scream})
-const mapActionToProps = {getScream, openDialog, closeDialog}
+const mapActionToProps = {getScream, openCommentDialog, closeCommentDialog}
 
 const styles = theme => ({...theme.customStyles})
 
