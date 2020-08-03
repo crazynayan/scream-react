@@ -20,7 +20,7 @@ export const loginUser = (userData, history) => async (dispatch) => {
     dispatch({type: CLEAR_ERRORS})
     history.push("/")
   } catch (error) {
-    dispatch({type: SET_ERRORS, payload: error.response.data})
+    error.response ? dispatch({type: SET_ERRORS, payload: error.response.data}) : console.log(error)
   }
 }
 

@@ -16,13 +16,13 @@ import AuthRoute from "./util/AuthRoute"
 import Navbar from "./components/layout/Navbar"
 // Pages
 import home from "./pages/home"
-import login from "./pages/login"
+import Login from "./pages/login"
 import signup from "./pages/signup"
 import user from "./pages/user"
 
 const theme = createMuiTheme(themeFile)
 
-axios.defaults.baseURL = "https://us-central1-scream-tutorial.cloudfunctions.net/api"
+axios.defaults.baseURL = "http://localhost:5000/scream-tutorial/us-central1/api"
 
 const token = localStorage.FirebaseToken
 if (token) {
@@ -46,7 +46,7 @@ function App() {
           <div className="container">
             <Switch>
               <Route exact path="/" component={home}/>
-              <AuthRoute exact path="/login" component={login}/>
+              <AuthRoute exact path="/login" component={Login}/>
               <AuthRoute exact path="/signup" component={signup}/>
               <Route exact path={"/users/:handle"} component={user}/>
               <Route exact path={"/users/:handle/scream/:screamId"} component={user}/>
