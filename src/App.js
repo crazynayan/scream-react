@@ -22,6 +22,8 @@ import user from "./pages/user"
 
 const theme = createMuiTheme(themeFile)
 
+axios.defaults.baseURL = "https://us-central1-scream-tutorial.cloudfunctions.net/api"
+
 const token = localStorage.FirebaseToken
 if (token) {
   const decodedToken = jwtDecode(token)
