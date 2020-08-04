@@ -6,7 +6,7 @@ import {
   LIKE_SCREAM,
   UNLIKE_SCREAM,
   MARK_NOTIFICATIONS_READ,
-  SET_PROFILE
+  SET_PROFILE, EDIT_CREDENTIALS
 } from "./types"
 
 const initialState = {
@@ -39,6 +39,8 @@ export default function (state = initialState, action) {
       return {...state, notifications: state.notifications.map(notification => ({...notification, read: true}))}
     case SET_PROFILE:
       return {...state, profile: action.payload}
+    case EDIT_CREDENTIALS:
+      return {...state, credentials: {...state.credentials, ...action.payload}}
     default:
       return state
   }

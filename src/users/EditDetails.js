@@ -1,103 +1,71 @@
-import React, {Component, Fragment} from "react"
+import React, {Fragment, useState, useEffect} from "react"
 import PropTypes from "prop-types"
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, withStyles} from "@material-ui/core"
+import {Button, Dialog, DialogContent, DialogTitle, TextField, withStyles} from "@material-ui/core"
 import {Edit as EditIcon} from "@material-ui/icons"
 import {connect} from "react-redux"
 
 import {editUserDetails} from "../redux/userAction"
 import TooltipIconButton from "../util/TooltipIconButton"
+import {useForm} from "react-hook-form"
 
-const styles = (theme) => ({
-  ...theme.customStyles,
-  button: {float: "right"}
-})
-
-
-class EditDetails extends Component {
-  state = {
-    bio: "",
-    website: "",
-    location: "",
-    open: false
+function EditDetails(props) {
+  const extractCredentials = credentials => {
+    const {bio, website, location} = credentials
+    return {
+      bio: bio ? bio : "",
+      website: website ? website : "",
+      location: location ? location : ""
+    }
   }
+  const credentials = props.credentials
+  const {handleSubmit, register, reset} = useForm({defaultValues: extractCredentials(credentials)})
+  useEffect(() => {
+    reset(extractCredentials(credentials))
+  }, [credentials, reset])
 
-  componentDidMount() {
-    this.mapUserDetailsToState(this.props.credentials)
+  const [dialogState, setDialogState] = useState(false)
+  const handleOpen = () => {
+    setDialogState(true)
   }
-
-  mapUserDetailsToState = (credentials) => {
-    this.setState({
-      bio: credentials.bio ? credentials.bio : "",
-      website: credentials.bio ? credentials.website : "",
-      location: credentials.bio ? credentials.location : "",
-    })
+  const handleClose = () => {
+    setDialogState(false)
   }
-
-  handleOpen = () => {
-    this.setState({open: true})
-    this.mapUserDetailsToState(this.props.credentials)
+  const onSubmit = data => {
+    const credentials = {bio: data.bio, website: data.website, location: data.location}
+    props.editUserDetails(credentials)
+    handleClose()
   }
-
-  handleClose = () => {
-    this.setState({open: false})
-  }
-
-  handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
-
-  handleSubmit = () => {
-    this.props.editUserDetails({
-      bio: this.state.bio,
-      website: this.state.website,
-      location: this.state.location
-    })
-    this.handleClose()
-  }
-
-  render() {
-    const {classes} = this.props
-    return (
-      <Fragment>
-        <TooltipIconButton title={"Edit details"} onClick={this.handleOpen} buttonClass={classes.button}>
-          <EditIcon color={"primary"}/>
-        </TooltipIconButton>
-        <Dialog open={this.state.open} onClose={this.handleClose} fullWidth maxWidth={"sm"}>
-          <DialogTitle>Edit your details</DialogTitle>
-          <DialogContent>
-            <form>
-              <TextField name={"bio"} type={"text"} label={"Bio"} multiline rows={"3"} className={classes.textField}
-                         placeholder={"A short bio about yourself"} value={this.state.bio} onChange={this.handleChange}
-                         fullWidth/>
-              <TextField name={"website"} type={"text"} label={"Website"} className={classes.textField}
-                         value={this.state.website} placeholder={"Your personal/professional website"}
-                         onChange={this.handleChange} fullWidth/>
-              <TextField name={"location"} type={"text"} label={"Location"} className={classes.textField}
-                         value={this.state.location} placeholder={"Where you live"} onChange={this.handleChange}
-                         fullWidth/>
-            </form>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color={"primary"}>
-              Cancel
-            </Button>
-            <Button onClick={this.handleSubmit} color={"primary"}>
+  const {classes} = props
+  return (
+    <Fragment>
+      <TooltipIconButton title={"Edit details"} onClick={handleOpen} buttonClass={classes.button}>
+        <EditIcon color={"primary"}/>
+      </TooltipIconButton>
+      <Dialog open={dialogState} onClose={handleClose} fullWidth maxWidth={"sm"}>
+        <DialogTitle>Edit your details</DialogTitle>
+        <DialogContent>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <TextField name={"bio"} type={"text"} label={"Bio"} multiline rows={"3"} className={classes.textField}
+                       placeholder={"A short bio about yourself"} inputRef={register()} fullWidth/>
+            <TextField name={"website"} type={"text"} label={"Website"} className={classes.textField}
+                       placeholder={"Your personal/professional website"} inputRef={register()} fullWidth/>
+            <TextField name={"location"} type={"text"} label={"Location"} className={classes.textField}
+                       placeholder={"Where you live"} inputRef={register()} fullWidth/>
+            <Button type="submit" variant="contained" color="primary" className={classes.button}>
               Save
             </Button>
-          </DialogActions>
-        </Dialog>
-      </Fragment>
-    );
-  }
+          </form>
+        </DialogContent>
+      </Dialog>
+    </Fragment>
+  )
 }
 
 EditDetails.propTypes = {
   editUserDetails: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired
 }
-
+const styles = (theme) => ({...theme.customStyles, button: {float: "right"}})
 const mapStateToProps = (state) => ({credentials: state.user.credentials})
 
 export default connect(mapStateToProps, {editUserDetails})(withStyles(styles)(EditDetails))

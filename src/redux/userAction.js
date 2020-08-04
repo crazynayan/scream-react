@@ -1,11 +1,12 @@
 import {
-  SET_USER,
-  SET_ERRORS,
   CLEAR_ERRORS,
+  EDIT_CREDENTIALS,
   LOADING_UI,
-  SET_UNAUTHENTICATED,
   LOADING_USER,
-  MARK_NOTIFICATIONS_READ
+  MARK_NOTIFICATIONS_READ,
+  SET_ERRORS,
+  SET_UNAUTHENTICATED,
+  SET_USER
 } from "./types"
 import axios from "axios"
 
@@ -68,12 +69,12 @@ export const uploadImage = (formData) => async (dispatch) => {
 }
 
 export const editUserDetails = (userDetails) => async(dispatch) => {
-  dispatch({type: LOADING_USER})
   try {
-    await axios.post("/user", userDetails)
-    dispatch(getUserData())
+    const response = await axios.post("/user", userDetails)
+    dispatch({type: EDIT_CREDENTIALS, payload: response.data})
   } catch(error) {
-    if (error.response.status === 403)
+    console.log(error)
+    if (error?.response?.status === 403)
       dispatch(logoutUser())
   }
 }

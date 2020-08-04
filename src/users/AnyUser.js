@@ -13,12 +13,15 @@ function AnyUser(props) {
   const handle = props.match.params.handle
   const paramsScreamId = props.match.params.screamId
   const getAnyUserData = props.getAnyUserData
-
+  
   useEffect(() => {
     getAnyUserData(handle)
+  }, [getAnyUserData, handle])
+
+  useEffect(() => {
     if (paramsScreamId)
       setScreamId(paramsScreamId);
-  }, [getAnyUserData, handle, paramsScreamId])
+  }, [paramsScreamId])
 
   const {screams, loading} = props.data
   const profile = props.profile
