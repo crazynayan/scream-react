@@ -14,11 +14,9 @@ function Notifications(props) {
   const handleOpen = (event) => {
     setAnchorEl(event.currentTarget)
   }
-
   const handleClose = () => {
     setAnchorEl(null)
   }
-
   const onMenuOpened = () => {
     // noinspection JSUnresolvedVariable
     const unreadNotifications = props.notifications
@@ -26,12 +24,10 @@ function Notifications(props) {
       .map(notification => notification.notificationId)
     props.markNotificationRead(unreadNotifications)
   }
-
   const notifications = props.notifications
   const unReadCount = notifications.filter(notification => !notification.read).length
   const notificationPresent = !!(notifications && notifications.length > 0)
   dayjs.extend(relativeTime)
-
   const notificationsMarkup = notificationPresent ? (
     notifications.map(notification => {
       // noinspection JSUnresolvedVariable
@@ -57,7 +53,6 @@ function Notifications(props) {
       You have no notifications
     </MenuItem>
   )
-
   return (
     <Fragment>
       <Tooltip placement={"top"} title={"Notifications"}>

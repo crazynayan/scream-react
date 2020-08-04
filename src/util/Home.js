@@ -9,10 +9,11 @@ import ScreamSkeleton from "../screams/ScreamSkeleton"
 import {getScreams} from "../redux/dataAction"
 
 function Home(props) {
+  const getScreams = props.getScreams
+
   useEffect(() => {
-    props.getScreams()
-    // eslint-disable-next-line
-  }, [])
+    getScreams()
+  }, [getScreams])
 
   const {screams, loading} = props.data
   return (

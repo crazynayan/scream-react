@@ -10,6 +10,7 @@ import {useForm} from "react-hook-form"
 
 function Login(props) {
   const {handleSubmit, errors, setError, register} = useForm({defaultValues: {email: "", password: ""}})
+
   const onSubmit = async (data) => {
     props.loginUser({email: data.email, password: data.password}, props.history)
   }

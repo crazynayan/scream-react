@@ -5,7 +5,8 @@ import {
   LOADING_USER,
   LIKE_SCREAM,
   UNLIKE_SCREAM,
-  MARK_NOTIFICATIONS_READ
+  MARK_NOTIFICATIONS_READ,
+  SET_PROFILE
 } from "./types"
 
 const initialState = {
@@ -13,7 +14,8 @@ const initialState = {
   loading: false,
   credentials: {},
   likes: [],
-  notifications: []
+  notifications: [],
+  profile: {}
 }
 
 export default function (state = initialState, action) {
@@ -23,7 +25,7 @@ export default function (state = initialState, action) {
     case SET_UNAUTHENTICATED:
       return initialState
     case SET_USER:
-      return {...action.payload, loading: false, authenticated: true}
+      return {...state, ...action.payload, loading: false, authenticated: true}
     case LOADING_USER:
       return {...state, loading: true}
     case LIKE_SCREAM:
@@ -35,6 +37,8 @@ export default function (state = initialState, action) {
       return {...state, likes: state.likes.filter(like => like.screamId !== action.payload.screamId)}
     case MARK_NOTIFICATIONS_READ:
       return {...state, notifications: state.notifications.map(notification => ({...notification, read: true}))}
+    case SET_PROFILE:
+      return {...state, profile: action.payload}
     default:
       return state
   }

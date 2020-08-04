@@ -51,7 +51,7 @@ export const getUserData = () => async(dispatch) => {
     const response = await axios.get("/user")
     dispatch({type: SET_USER, payload: response.data})
   } catch (error) {
-    if (error.response.status === 403)
+    if (error.response?.status === 403)
       dispatch(logoutUser())
   }
 }

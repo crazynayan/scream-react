@@ -1,51 +1,42 @@
-import React, {Component} from "react"
+import React, {useEffect, useState} from "react"
 import PropTypes from "prop-types"
-import axios from "axios"
 import {connect} from "react-redux"
 import {Grid} from "@material-ui/core"
 import {getAnyUserData} from "../redux/dataAction"
 import Scream from "../screams/Scream"
 import StaticProfile from "./StaticProfile"
+import ProfileSkeleton from "./ProfileSkeleton"
+import ScreamSkeleton from "../screams/ScreamSkeleton"
 
-class AnyUser extends Component {
-  state = {
-    profile: null,
-    screamId: null
-  }
+function AnyUser(props) {
+  const [screamId, setScreamId] = useState(null)
+  const handle = props.match.params.handle
+  const paramsScreamId = props.match.params.screamId
+  const getAnyUserData = props.getAnyUserData
 
-  async componentDidMount() {
-    const handle = this.props.match.params.handle
-    const screamId = this.props.match.params.screamId
-    if (screamId)
-      this.setState({screamId: screamId})
-    this.props.getAnyUserData(handle)
-    try {
-      const response = await axios.get(`/user/${handle}`)
-      this.setState({profile: response.data.user})
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  useEffect(() => {
+    getAnyUserData(handle)
+    if (paramsScreamId)
+      setScreamId(paramsScreamId);
+  }, [getAnyUserData, handle, paramsScreamId])
 
-  render() {
-    const {screams, loading} = this.props.data
-    const {screamId} = this.state
-    return (
-      <Grid container spacing={2}>
-        <Grid item sm={8} xs={12}>
-          {!loading ? (
-            screams !== null ? (
-              screams.map(scream => <Scream key={scream.screamId} scream={scream}
-                                            openDialog={screamId && scream.screamId === screamId}/>)
-            ) : <p>No screams for this user</p>
-          ) : <p>Loading...</p>}
-        </Grid>
-        <Grid item sm={4} xs={12}>
-          {this.state.profile === null ? <p>Loading profile...</p> : <StaticProfile profile={this.state.profile}/>}
-        </Grid>
+  const {screams, loading} = props.data
+  const profile = props.profile
+  return (
+    <Grid container spacing={2}>
+      <Grid item sm={8} xs={12}>
+        {!loading ? (
+          screams !== null ? (
+            screams.map(scream => <Scream key={scream.screamId} scream={scream}
+                                          openDialog={screamId && scream.screamId === screamId}/>)
+          ) : <p>No screams for this user</p>
+        ) : <ScreamSkeleton/>}
       </Grid>
-    )
-  }
+      <Grid item sm={4} xs={12}>
+        {!loading && profile ?  <StaticProfile profile={profile}/> :<ProfileSkeleton/>}
+      </Grid>
+    </Grid>
+  )
 }
 
 AnyUser.propTypes = {
@@ -53,6 +44,9 @@ AnyUser.propTypes = {
   data: PropTypes.object.isRequired
 }
 
-const mapStateToProps = state => ({data: state.data})
+const mapStateToProps = state => ({
+  data: state.data,
+  profile: state.user.profile
+})
 
 export default connect(mapStateToProps, {getAnyUserData})(AnyUser)

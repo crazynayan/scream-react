@@ -14,7 +14,7 @@ import {
   SET_SCREAM,
   UNLIKE_SCREAM,
   SUBMIT_COMMENT,
-  SET_OLD_PATH
+  SET_OLD_PATH, SET_PROFILE
 } from "./types"
 import axios from "axios"
 
@@ -93,6 +93,7 @@ export const getAnyUserData = userHandle => async (dispatch) => {
   dispatch({type: LOADING_DATA})
   try {
     const response = await axios.get(`/user/${userHandle}`)
+    dispatch({type: SET_PROFILE, payload: response.data.user})
     dispatch({type: SET_SCREAMS, payload: response.data.screams})
   } catch (error) {
     dispatch({type: SET_SCREAMS, payload: []})

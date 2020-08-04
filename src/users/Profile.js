@@ -1,98 +1,67 @@
-import React, {Component, Fragment} from "react"
+import React from "react"
 import {Link} from "react-router-dom"
 import PropTypes from "prop-types"
-import {Button, Link as MuiLink, Paper, Typography, withStyles} from "@material-ui/core"
-import {CalendarToday, Edit as EditIcon, KeyboardReturn, Link as LinkIcon, LocationOn} from "@material-ui/icons"
+import {Button, Paper, Typography, withStyles} from "@material-ui/core"
+import {Edit as EditIcon, KeyboardReturn} from "@material-ui/icons"
 import {connect} from "react-redux"
-import dayjs from "dayjs"
 
 import {logoutUser, uploadImage} from "../redux/userAction"
 import EditDetails from "./EditDetails"
-import TooltipIconButton from "../util/TooltipIconButton";
+import TooltipIconButton from "../util/TooltipIconButton"
 import ProfileSkeleton from "./ProfileSkeleton"
+import ProfileDetails from "./ProfileDetails";
 
-const styles = (theme) => ({...theme.customStyles})
 
-class Profile extends Component {
-  handleImageChange = (event) => {
+function Profile(props) {
+  const handleImageChange = (event) => {
     const imageFile = event.target.files[0]
     const formData = new FormData()
     formData.append("image", imageFile, imageFile.name)
-    this.props.uploadImage(formData)
+    props.uploadImage(formData)
   }
-
-  handleEditPicture = () => {
+  const handleEditPicture = () => {
     document.getElementById("imageInput").click()
   }
-
-  handleLogout = () => {
-    this.props.logoutUser()
+  const handleLogout = () => {
+    props.logoutUser()
   }
-
-  render() {
-    const {classes, user: {credentials, loading, authenticated}} = this.props
-    const {handle, createdAt, imageUrl, bio, website, location} = credentials
-    return !loading ? (
-      authenticated ? (
-        <Paper className={classes.paper}>
-          <div className={classes.profile}>
-            <div className="image-wrapper">
-              <img src={imageUrl} alt={"profile"} className={"profile-image"}/>
-              <input type={"file"} id={"imageInput"} hidden={"hidden"} onChange={this.handleImageChange}/>
-              <TooltipIconButton title={"Edit profile picture"} onClick={this.handleEditPicture} buttonClass={"button"}>
-                <EditIcon color={"primary"}/>
-              </TooltipIconButton>
-            </div>
-            <hr/>
-            <div className="profile-details">
-              <MuiLink component={Link} to={`/users/${handle}`} color={"primary"} variant={"h5"}>
-                @{handle}
-              </MuiLink>
-              <hr/>
-              {bio && <Fragment>
-                <Typography variant={"body2"}>{bio}</Typography>
-                <hr/>
-              </Fragment>}
-              {location && <Fragment>
-                <LocationOn color={"primary"}/><span>{location}</span>
-                <hr/>
-              </Fragment>}
-              {website && <Fragment>
-                <LinkIcon color={"primary"}/>
-                <a href={website} target={"_blank"} rel={"noopener noreferrer"}>
-                  {"  "}{website}
-                </a>
-                <hr/>
-              </Fragment>}
-              <CalendarToday color={"primary"}/>{" "}
-              <span>Joined {dayjs(createdAt).format("MMM YYYY")}</span>
-            </div>
-            <TooltipIconButton title={"Logout"} onClick={this.handleLogout}>
-              <KeyboardReturn color={"primary"}/>
+  const {classes, user: {credentials, loading, authenticated}} = props
+  return !loading ? (
+    authenticated ? (
+      <Paper className={classes.paper}>
+        <div className={classes.profile}>
+          <div className="image-wrapper">
+            <img src={credentials.imageUrl} alt={"profile"} className={"profile-image"}/>
+            <input type={"file"} id={"imageInput"} hidden={"hidden"} onChange={handleImageChange}/>
+            <TooltipIconButton title={"Edit profile picture"} onClick={handleEditPicture} buttonClass={"button"}>
+              <EditIcon color={"primary"}/>
             </TooltipIconButton>
-            <EditDetails/>
           </div>
-        </Paper>
-      ) : (
-        <Paper className={classes.paper}>
-          <Typography variant={"body2"} align={"center"}>
-            No profile found, please login again
-          </Typography>
-          <div className={classes.buttons}>
-            <Button variant={"contained"} color={"primary"} component={Link} to={"/login"}>
-              Login
-            </Button>
-            <Button variant={"contained"} color={"secondary"} component={Link} to={"/signup"}>
-              Signup
-            </Button>
-          </div>
-        </Paper>
-      )
-    ) : <ProfileSkeleton/>
-  }
+          <hr/>
+          <ProfileDetails profile={credentials}/>
+          <TooltipIconButton title={"Logout"} onClick={handleLogout}>
+            <KeyboardReturn color={"primary"}/>
+          </TooltipIconButton>
+          <EditDetails/>
+        </div>
+      </Paper>
+    ) : (
+      <Paper className={classes.paper}>
+        <Typography variant={"body2"} align={"center"}>
+          No profile found, please login again
+        </Typography>
+        <div className={classes.buttons}>
+          <Button variant={"contained"} color={"primary"} component={Link} to={"/login"}>
+            Login
+          </Button>
+          <Button variant={"contained"} color={"secondary"} component={Link} to={"/signup"}>
+            Signup
+          </Button>
+        </div>
+      </Paper>
+    )
+  ) : <ProfileSkeleton/>
 }
-
-const mapStateToProps = (state) => ({user: state.user})
 
 Profile.propTypes = {
   user: PropTypes.object.isRequired,
@@ -100,5 +69,8 @@ Profile.propTypes = {
   logoutUser: PropTypes.func.isRequired,
   uploadImage: PropTypes.func.isRequired
 }
+
+const styles = (theme) => ({...theme.customStyles})
+const mapStateToProps = (state) => ({user: state.user})
 
 export default connect(mapStateToProps, {logoutUser, uploadImage})(withStyles(styles)(Profile))
