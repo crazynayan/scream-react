@@ -5,7 +5,7 @@ import {Add as AddIcon, Close as CloseIcon} from "@material-ui/icons"
 import {connect} from "react-redux"
 
 import {postScream, openScreamDialog, closeScreamDialog} from "../redux/dataAction"
-import ScreamButton from "../util/ScreamButton"
+import TooltipIconButton from "../util/TooltipIconButton"
 
 class PostScream extends Component {
   state = {
@@ -34,13 +34,13 @@ class PostScream extends Component {
     const {classes, ui: {loading, dialogStateOfScream}, closeScreamDialog} = this.props
     return (
       <Fragment>
-        <ScreamButton onClick={this.handleOpen} title={"Post a Scream"}>
+        <TooltipIconButton onClick={this.handleOpen} title={"Post a Scream"}>
           <AddIcon/>
-        </ScreamButton>
+        </TooltipIconButton>
         <Dialog open={dialogStateOfScream} onClose={closeScreamDialog} fullWidth maxWidth={"sm"}>
-          <ScreamButton title={"Close"} onClick={closeScreamDialog} tipClass={classes.closeButton}>
+          <TooltipIconButton title={"Close"} onClick={closeScreamDialog} tipClass={classes.closeButton}>
             <CloseIcon/>
-          </ScreamButton>
+          </TooltipIconButton>
           <DialogTitle>Post a new scream</DialogTitle>
           <DialogContent>
             <form onSubmit={this.handleSubmit}>

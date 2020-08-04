@@ -8,7 +8,7 @@ import dayjs from "dayjs"
 
 import {logoutUser, uploadImage} from "../redux/userAction"
 import EditDetails from "./EditDetails"
-import ScreamButton from "../util/ScreamButton";
+import TooltipIconButton from "../util/TooltipIconButton";
 import ProfileSkeleton from "./ProfileSkeleton"
 
 const styles = (theme) => ({...theme.customStyles})
@@ -39,9 +39,9 @@ class Profile extends Component {
             <div className="image-wrapper">
               <img src={imageUrl} alt={"profile"} className={"profile-image"}/>
               <input type={"file"} id={"imageInput"} hidden={"hidden"} onChange={this.handleImageChange}/>
-              <ScreamButton title={"Edit profile picture"} onClick={this.handleEditPicture} buttonClass={"button"}>
+              <TooltipIconButton title={"Edit profile picture"} onClick={this.handleEditPicture} buttonClass={"button"}>
                 <EditIcon color={"primary"}/>
-              </ScreamButton>
+              </TooltipIconButton>
             </div>
             <hr/>
             <div className="profile-details">
@@ -67,9 +67,9 @@ class Profile extends Component {
               <CalendarToday color={"primary"}/>{" "}
               <span>Joined {dayjs(createdAt).format("MMM YYYY")}</span>
             </div>
-            <ScreamButton title={"Logout"} onClick={this.handleLogout}>
+            <TooltipIconButton title={"Logout"} onClick={this.handleLogout}>
               <KeyboardReturn color={"primary"}/>
-            </ScreamButton>
+            </TooltipIconButton>
             <EditDetails/>
           </div>
         </Paper>

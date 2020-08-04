@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import {connect} from "react-redux"
 import {Button, Dialog, DialogTitle, DialogActions, withStyles} from "@material-ui/core"
 import {DeleteOutline} from "@material-ui/icons"
-import ScreamButton from "../util/ScreamButton"
+import TooltipIconButton from "../util/TooltipIconButton"
 import {deleteScream} from "../redux/dataAction"
 
 
@@ -28,9 +28,9 @@ class DeleteScream extends Component {
     const {classes} = this.props
     return (
       <Fragment>
-        <ScreamButton title={"Delete Scream"} onClick={this.handleOpen} buttonClass={classes.deleteButton}>
+        <TooltipIconButton title={"Delete Scream"} onClick={this.handleOpen} buttonClass={classes.deleteButton}>
           <DeleteOutline color={"secondary"}/>
-        </ScreamButton>
+        </TooltipIconButton>
         <Dialog open={this.state.open} onClose={this.handleClose} fullWidth maxWidth={"sm"}>
           <DialogTitle>Are you sure you want to delete this scream?</DialogTitle>
           <DialogActions>

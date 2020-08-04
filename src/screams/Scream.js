@@ -6,7 +6,7 @@ import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import {connect} from "react-redux"
 import {Chat as ChatIcon} from "@material-ui/icons"
-import ScreamButton from "../util/ScreamButton"
+import TooltipIconButton from "../util/TooltipIconButton"
 import DeleteScream from "./DeleteScream"
 import ScreamDialog from "./ScreamDialog"
 import LikeButton from "./LikeButton"
@@ -30,9 +30,9 @@ class Scream extends Component {
           <Typography variant={"body1"}>{body}</Typography>
           <LikeButton screamId={screamId}/>
           <span>{likeCount} Likes</span>
-          <ScreamButton title={"Comments"}>
+          <TooltipIconButton title={"Comments"}>
             <ChatIcon color={"primary"}/>
-          </ScreamButton>
+          </TooltipIconButton>
           <span>{commentCount} comments</span>
           <ScreamDialog screamId={screamId} userHandle={userHandle} openDialog={this.props.openDialog}/>
         </CardContent>

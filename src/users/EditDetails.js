@@ -5,7 +5,7 @@ import {Edit as EditIcon} from "@material-ui/icons"
 import {connect} from "react-redux"
 
 import {editUserDetails} from "../redux/userAction"
-import ScreamButton from "../util/ScreamButton"
+import TooltipIconButton from "../util/TooltipIconButton"
 
 const styles = (theme) => ({
   ...theme.customStyles,
@@ -61,9 +61,9 @@ class EditDetails extends Component {
     const {classes} = this.props
     return (
       <Fragment>
-        <ScreamButton title={"Edit details"} onClick={this.handleOpen} buttonClass={classes.button}>
+        <TooltipIconButton title={"Edit details"} onClick={this.handleOpen} buttonClass={classes.button}>
           <EditIcon color={"primary"}/>
-        </ScreamButton>
+        </TooltipIconButton>
         <Dialog open={this.state.open} onClose={this.handleClose} fullWidth maxWidth={"sm"}>
           <DialogTitle>Edit your details</DialogTitle>
           <DialogContent>

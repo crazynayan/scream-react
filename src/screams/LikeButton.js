@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import {connect} from "react-redux"
 import {Link} from "react-router-dom"
 import {Favorite, FavoriteBorder} from "@material-ui/icons"
-import ScreamButton from "../util/ScreamButton"
+import TooltipIconButton from "../util/TooltipIconButton"
 import {likeScream, unLikeScream} from "../redux/dataAction"
 
 class LikeButton extends Component {
@@ -25,19 +25,19 @@ class LikeButton extends Component {
       <Fragment>
         {!this.props.user.authenticated ? (
           <Link to={"/login"}>
-            <ScreamButton title={"Like"}>
+            <TooltipIconButton title={"Like"}>
               <FavoriteBorder color={"primary"}/>
-            </ScreamButton>
+            </TooltipIconButton>
           </Link>
         ) : (
           this.likedScream() ? (
-            <ScreamButton title={"Undo like"} onClick={this.unlikeScream}>
+            <TooltipIconButton title={"Undo like"} onClick={this.unlikeScream}>
               <Favorite color={"primary"}/>
-            </ScreamButton>
+            </TooltipIconButton>
           ) : (
-            <ScreamButton title={"Like"} onClick={this.likeScream}>
+            <TooltipIconButton title={"Like"} onClick={this.likeScream}>
               <FavoriteBorder color={"primary"}/>
-            </ScreamButton>
+            </TooltipIconButton>
           )
         )}
       </Fragment>

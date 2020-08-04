@@ -53,7 +53,7 @@ function App() {
         </Router>
       </Provider>
     </MuiThemeProvider>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -6,7 +6,7 @@ import {CircularProgress, Dialog, DialogContent, Grid, Typography, withStyles} f
 import {Chat as ChatIcon, Close as CloseIcon, UnfoldMore} from "@material-ui/icons"
 import dayjs from "dayjs"
 import {closeCommentDialog, getScream, openCommentDialog} from "../redux/dataAction"
-import ScreamButton from "../util/ScreamButton"
+import TooltipIconButton from "../util/TooltipIconButton"
 import LikeButton from "./LikeButton"
 import Comment from "./Comment"
 import CommentForm from "./CommentForm"
@@ -39,13 +39,13 @@ class ScreamDialog extends Component {
     } = this.props
     return (
       <Fragment>
-        <ScreamButton onClick={this.handleOpen} title={"Expand scream"} tipClass={classes.expandButton}>
+        <TooltipIconButton onClick={this.handleOpen} title={"Expand scream"} tipClass={classes.expandButton}>
           <UnfoldMore color={"primary"}/>
-        </ScreamButton>
+        </TooltipIconButton>
         <Dialog open={dialogStateOfComment} onClose={this.handleClose} fullWidth maxWidth={"sm"}>
-          <ScreamButton title={"Close"} onClick={this.handleClose} tipClass={classes.closeButton}>
+          <TooltipIconButton title={"Close"} onClick={this.handleClose} tipClass={classes.closeButton}>
             <CloseIcon/>
-          </ScreamButton>
+          </TooltipIconButton>
           <DialogContent className={classes.dialogContent}>
             {loading ? (
               <div className={classes.spinnerDiv}>
@@ -70,9 +70,9 @@ class ScreamDialog extends Component {
                   </Typography>
                   <LikeButton screamId={screamId}/>
                   <span>{likeCount} Likes</span>
-                  <ScreamButton title={"Comments"}>
+                  <TooltipIconButton title={"Comments"}>
                     <ChatIcon color={"primary"}/>
-                  </ScreamButton>
+                  </TooltipIconButton>
                   <span>{commentCount} comments</span>
                 </Grid>
                 {<hr className={classes.visibleSeparator}/>}
