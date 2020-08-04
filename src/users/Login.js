@@ -29,10 +29,10 @@ function Login(props) {
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField id="email" name="email" type="text" label="Email" className={classes.textField}
                      inputRef={register({required: "must not be empty"})}
-                     error={!!errors.email} helperText={errors.email && errors.email.message} fullWidth/>
+                     error={!!errors.email} helperText={errors?.email?.message} fullWidth/>
           <TextField id="password" name="password" type="password" label="Password" className={classes.textField}
                      inputRef={register({required: "must not be empty"})}
-                     error={!!errors.password} helperText={errors.password && errors.password.message} fullWidth/>
+                     error={!!errors.password} helperText={errors?.password?.message} fullWidth/>
           <Button type="submit" variant="contained" color="primary" className={classes.button} disabled={loading}>
             Login {loading && (
             <CircularProgress className={classes.progress} size={30}/>

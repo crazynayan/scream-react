@@ -6,7 +6,7 @@ import relativeTime from "dayjs/plugin/relativeTime"
 import {connect} from "react-redux"
 import {Menu, MenuItem, IconButton, Tooltip, Typography, Badge} from "@material-ui/core"
 import {Notifications as NotificationIcon, Favorite, Chat as ChatIcon} from "@material-ui/icons"
-import {markNotificationRead} from "../../redux/userAction"
+import {markNotificationRead} from "../redux/userAction"
 
 function Notifications(props) {
   const [anchorEl, setAnchorEl] = useState(null)

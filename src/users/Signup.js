@@ -44,7 +44,10 @@ function Signup(props) {
                      })}
                      error={!!errors.email} helperText={errors?.email?.message} fullWidth/>
           <TextField id="password" name="password" type="password" label="Password" className={classes.textField}
-                     inputRef={register({required: "must not be empty"})}
+                     inputRef={register({
+                       required: "must not be empty",
+                       minLength: {value: 6, message: "must be 6 or more characters"}
+                     })}
                      error={!!errors.password} helperText={errors?.password?.message} fullWidth/>
           <TextField id="confirmPassword" name="confirmPassword" type="password" label="Confirm Password"
                      className={classes.textField}  fullWidth

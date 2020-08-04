@@ -3,12 +3,12 @@ import PropTypes from "prop-types"
 import Grid from "@material-ui/core/Grid"
 import {connect} from "react-redux"
 
-import Scream from "../components/scream/Scream"
-import Profile from "../components/profile/Profile"
-import ScreamSkeleton from "../util/ScreamSkeleton"
+import Scream from "../screams/Scream"
+import Profile from "../users/Profile"
+import ScreamSkeleton from "../screams/ScreamSkeleton"
 import {getScreams} from "../redux/dataAction"
 
-class home extends Component {
+class Home extends Component {
   // noinspection JSCheckFunctionSignatures
   componentDidMount() {
     this.props.getScreams()
@@ -29,11 +29,11 @@ class home extends Component {
   }
 }
 
-home.propTypes = {
+Home.propTypes = {
   data: PropTypes.object.isRequired,
   getScreams: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({data: state.data})
 
-export default connect(mapStateToProps, {getScreams})(home)
+export default connect(mapStateToProps, {getScreams})(Home)

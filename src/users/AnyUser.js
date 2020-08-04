@@ -4,10 +4,10 @@ import axios from "axios"
 import {connect} from "react-redux"
 import {Grid} from "@material-ui/core"
 import {getAnyUserData} from "../redux/dataAction"
-import Scream from "../components/scream/Scream"
-import StaticProfile from "../components/profile/StaticProfile"
+import Scream from "../screams/Scream"
+import StaticProfile from "./StaticProfile"
 
-class user extends Component {
+class AnyUser extends Component {
   state = {
     profile: null,
     screamId: null
@@ -48,11 +48,11 @@ class user extends Component {
   }
 }
 
-user.propTypes = {
+AnyUser.propTypes = {
   getAnyUserData: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({data: state.data})
 
-export default connect(mapStateToProps, {getAnyUserData})(user)
+export default connect(mapStateToProps, {getAnyUserData})(AnyUser)
