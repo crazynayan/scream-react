@@ -4,7 +4,7 @@ import {connect} from "react-redux"
 import {Button, Dialog, DialogTitle, DialogActions, withStyles} from "@material-ui/core"
 import {DeleteOutline} from "@material-ui/icons"
 import ScreamButton from "../../util/ScreamButton"
-import {deleteScream} from "../../redux/actions/dataAction"
+import {deleteScream} from "../../redux/dataAction"
 
 
 class DeleteScream extends Component {

@@ -6,7 +6,7 @@ import {CalendarToday, Edit as EditIcon, KeyboardReturn, Link as LinkIcon, Locat
 import {connect} from "react-redux"
 import dayjs from "dayjs"
 
-import {logoutUser, uploadImage} from "../../redux/actions/userAction"
+import {logoutUser, uploadImage} from "../../redux/userAction"
 import EditDetails from "./EditDetails"
 import ScreamButton from "../../util/ScreamButton";
 import ProfileSkeleton from "../../util/ProfileSkeleton"

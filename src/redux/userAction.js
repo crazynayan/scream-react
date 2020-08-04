@@ -6,7 +6,7 @@ import {
   SET_UNAUTHENTICATED,
   LOADING_USER,
   MARK_NOTIFICATIONS_READ
-} from "../types"
+} from "./types"
 import axios from "axios"
 
 export const loginUser = (userData, history) => async (dispatch) => {

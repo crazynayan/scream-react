@@ -7,7 +7,7 @@ import {
   SET_SCREAMS,
   SUBMIT_COMMENT,
   UNLIKE_SCREAM
-} from "../types"
+} from "./types"
 
 const initialState = {
   screams: [],

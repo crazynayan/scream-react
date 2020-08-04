@@ -6,7 +6,7 @@ import {
   LIKE_SCREAM,
   UNLIKE_SCREAM,
   MARK_NOTIFICATIONS_READ
-} from "../types"
+} from "./types"
 
 const initialState = {
   authenticated: false,

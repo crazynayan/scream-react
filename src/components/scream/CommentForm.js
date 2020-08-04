@@ -2,7 +2,7 @@ import React, {Component, Fragment} from "react"
 import PropTypes from "prop-types"
 import {connect} from "react-redux"
 import {withStyles, Button, Grid, TextField} from "@material-ui/core"
-import {submitComment} from "../../redux/actions/dataAction"
+import {submitComment} from "../../redux/dataAction"
 
 class CommentForm extends Component {
   state = {

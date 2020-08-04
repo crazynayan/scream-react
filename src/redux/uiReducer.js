@@ -7,7 +7,7 @@ import {
   OPEN_SCREAM_DIALOG,
   SET_ERRORS,
   SET_OLD_PATH
-} from "../types"
+} from "./types"
 
 const initialState = {
   loading: false,

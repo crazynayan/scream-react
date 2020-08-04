@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import axios from "axios"
 import {connect} from "react-redux"
 import {Grid} from "@material-ui/core"
-import {getAnyUserData} from "../redux/actions/dataAction"
+import {getAnyUserData} from "../redux/dataAction"
 import Scream from "../components/scream/Scream"
 import StaticProfile from "../components/profile/StaticProfile"
 

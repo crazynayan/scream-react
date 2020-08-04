@@ -15,7 +15,7 @@ import {
   UNLIKE_SCREAM,
   SUBMIT_COMMENT,
   SET_OLD_PATH
-} from "../types"
+} from "./types"
 import axios from "axios"
 
 export const getScreams = () => async (dispatch) => {
