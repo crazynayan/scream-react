@@ -1,50 +1,51 @@
-import React, {Component, Fragment} from "react"
+import React, {useState, Fragment} from "react"
 import PropTypes from "prop-types"
 import {connect} from "react-redux"
-import {Button, Dialog, DialogTitle, DialogActions, withStyles} from "@material-ui/core"
+import {Button, Dialog, DialogTitle, DialogActions, withStyles, CircularProgress} from "@material-ui/core"
 import {DeleteOutline} from "@material-ui/icons"
 import TooltipIconButton from "../util/TooltipIconButton"
 import {deleteScream} from "../redux/dataAction"
 
 
-class DeleteScream extends Component {
-  state = {
-    open: false
-  }
-  handleOpen = () => {
-    this.setState({open: true})
+function DeleteScream(props) {
+  const [dialogState, setDialogState] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  const handleOpen = () => {
+    setDialogState(true)
   }
 
-  handleClose = () => {
-    this.setState({open: false})
+  const handleClose = () => {
+    setDialogState(false)
   }
 
-  deleteScream = () => {
-    this.props.deleteScream(this.props.screamId)
-    this.setState({open: false})
+  const deleteScream = async() => {
+    setLoading(true)
+    await props.deleteScream(props.screamId)
+    setLoading(false)
+    setDialogState(false)
   }
 
-  render() {
-    const {classes} = this.props
+    const {classes} = props
     return (
       <Fragment>
-        <TooltipIconButton title={"Delete Scream"} onClick={this.handleOpen} buttonClass={classes.deleteButton}>
+        <TooltipIconButton title={"Delete Scream"} onClick={handleOpen} buttonClass={classes.deleteButton}>
           <DeleteOutline color={"secondary"}/>
         </TooltipIconButton>
-        <Dialog open={this.state.open} onClose={this.handleClose} fullWidth maxWidth={"sm"}>
+        <Dialog open={dialogState} onClose={handleClose} fullWidth maxWidth={"sm"}>
           <DialogTitle>Are you sure you want to delete this scream?</DialogTitle>
           <DialogActions>
-            <Button onClick={this.handleClose} color={"primary"}>
+            <Button onClick={handleClose} color={"primary"} variant="contained">
               Cancel
             </Button>
-            <Button onClick={this.deleteScream} color={"secondary"}>
+            <Button onClick={deleteScream} color={"secondary"} variant="contained" disabled={loading}>
               Delete
+              {loading && <CircularProgress size={30} className={classes.progressSpinner}/>}
             </Button>
           </DialogActions>
         </Dialog>
       </Fragment>
     )
-  }
 }
 
 DeleteScream.propTypes = {

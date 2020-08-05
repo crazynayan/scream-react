@@ -1,20 +1,16 @@
 import {
   CLEAR_ERRORS,
-  CLOSE_COMMENT_DIALOG,
-  CLOSE_SCREAM_DIALOG,
   DELETE_SCREAM,
   LIKE_SCREAM,
   LOADING_DATA,
   LOADING_UI,
-  OPEN_COMMENT_DIALOG,
-  OPEN_SCREAM_DIALOG,
   POST_SCREAM,
   SET_ERRORS,
-  SET_SCREAMS,
+  SET_PROFILE,
   SET_SCREAM,
-  UNLIKE_SCREAM,
+  SET_SCREAMS,
   SUBMIT_COMMENT,
-  SET_OLD_PATH, SET_PROFILE
+  UNLIKE_SCREAM
 } from "./types"
 import axios from "axios"
 
@@ -35,7 +31,7 @@ export const getScream = (screamId) => async (dispatch) => {
     dispatch({type: SET_SCREAM, payload: response.data})
     dispatch({type: CLEAR_ERRORS})
   } catch (error) {
-    dispatch({type: SET_ERRORS, payload: error.response.data})
+    console.log(error)
   }
 }
 
@@ -44,7 +40,7 @@ export const postScream = (newScream) => async (dispatch) => {
   try {
     const response = await axios.post("/scream", newScream)
     dispatch({type: POST_SCREAM, payload: response.data})
-    dispatch({type: CLOSE_SCREAM_DIALOG})
+    dispatch({type: CLEAR_ERRORS})
   } catch (error) {
     dispatch({type: SET_ERRORS, payload: error.response.data})
   }
@@ -83,9 +79,8 @@ export const deleteScream = (screamId) => async (dispatch) => {
   try {
     await axios.delete(`/scream/${screamId}`)
     dispatch({type: DELETE_SCREAM, payload: screamId})
-    dispatch({type: CLEAR_ERRORS})
   } catch (error) {
-    dispatch({type: SET_ERRORS, payload: error.response.data})
+    console.log(error)
   }
 }
 
@@ -98,20 +93,4 @@ export const getAnyUserData = userHandle => async (dispatch) => {
   } catch (error) {
     dispatch({type: SET_SCREAMS, payload: []})
   }
-}
-export const openScreamDialog = () => (dispatch) => {
-  dispatch({type: OPEN_SCREAM_DIALOG})
-}
-
-export const closeScreamDialog = () => (dispatch) => {
-  dispatch({type: CLOSE_SCREAM_DIALOG})
-}
-
-export const openCommentDialog = (oldPath) => (dispatch) => {
-  dispatch({type: SET_OLD_PATH, payload: oldPath})
-  dispatch({type: OPEN_COMMENT_DIALOG})
-}
-
-export const closeCommentDialog = () => (dispatch) => {
-  dispatch({type: CLOSE_COMMENT_DIALOG})
 }

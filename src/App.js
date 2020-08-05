@@ -25,8 +25,8 @@ axios.defaults.baseURL = "http://localhost:5000/scream-tutorial/us-central1/api"
 const token = localStorage.FirebaseToken
 if (token) {
   const decodedToken = jwtDecode(token)
-  if (decodedToken * 1000 < Date.now()) {
-    window.location.href = "/login"
+  if (decodedToken.exp * 1000 < Date.now()) {
+    window.location.href = "/"
     store.dispatch(logoutUser())
   } else {
     store.dispatch({type: SET_AUTHENTICATED})

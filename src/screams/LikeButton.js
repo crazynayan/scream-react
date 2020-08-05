@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from "react"
+import React, {Fragment, useState} from "react"
 import PropTypes from "prop-types"
 import {connect} from "react-redux"
 import {Link} from "react-router-dom"
@@ -6,43 +6,47 @@ import {Favorite, FavoriteBorder} from "@material-ui/icons"
 import TooltipIconButton from "../util/TooltipIconButton"
 import {likeScream, unLikeScream} from "../redux/dataAction"
 
-class LikeButton extends Component {
-  likedScream = () => {
-    const {user: {likes}, screamId} = this.props
+function LikeButton(props) {
+  const [loading, setLoading] = useState(false)
+
+  const likedScream = () => {
+    const {user: {likes}, screamId} = props
     return !!(likes && likes.find(like => like.screamId === screamId))
   }
 
-  likeScream = () => {
-    this.props.likeScream(this.props.screamId)
+  const likeScream = async() => {
+    setLoading(true)
+    await props.likeScream(props.screamId)
+    setLoading(false)
   }
 
-  unlikeScream = () => {
-    this.props.unLikeScream(this.props.screamId)
+  const unlikeScream = async() => {
+    setLoading(true)
+    await props.unLikeScream(props.screamId)
+    setLoading(false)
   }
 
-  render() {
-    return (
-      <Fragment>
-        {!this.props.user.authenticated ? (
-          <Link to={"/login"}>
-            <TooltipIconButton title={"Like"}>
-              <FavoriteBorder color={"primary"}/>
-            </TooltipIconButton>
-          </Link>
+  return (
+    <Fragment>
+      {!props.user.authenticated ? (
+        <Link to={"/login"}>
+          <TooltipIconButton title={"Like"}>
+            <FavoriteBorder color={"primary"}/>
+          </TooltipIconButton>
+        </Link>
+      ) : (
+        likedScream() ? (
+          <TooltipIconButton title={"Undo like"} onClick={unlikeScream} loading={loading}>
+            <Favorite color={"primary"}/>
+          </TooltipIconButton>
         ) : (
-          this.likedScream() ? (
-            <TooltipIconButton title={"Undo like"} onClick={this.unlikeScream}>
-              <Favorite color={"primary"}/>
-            </TooltipIconButton>
-          ) : (
-            <TooltipIconButton title={"Like"} onClick={this.likeScream}>
-              <FavoriteBorder color={"primary"}/>
-            </TooltipIconButton>
-          )
-        )}
-      </Fragment>
-    );
-  }
+          <TooltipIconButton title={"Like"} onClick={likeScream} loading={loading}>
+            <FavoriteBorder color={"primary"}/>
+          </TooltipIconButton>
+        )
+      )}
+    </Fragment>
+  )
 }
 
 LikeButton.propTypes = {

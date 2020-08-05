@@ -1,48 +1,53 @@
-import React, {Component, Fragment} from "react"
+import React, {Fragment, useEffect, useState} from "react"
 import PropTypes from "prop-types"
 import {connect} from "react-redux"
-import {withStyles, Button, Grid, TextField} from "@material-ui/core"
+import {Button, CircularProgress, Grid, TextField, withStyles} from "@material-ui/core"
 import {submitComment} from "../redux/dataAction"
+import {useForm} from "react-hook-form"
 
-class CommentForm extends Component {
-  state = {
-    body: ""
+function CommentForm(props) {
+  const {register, errors, setError, handleSubmit, reset} = useForm({defaultValues: {body: ""}})
+  const [loading, setLoading] = useState(false)
+
+  const onSubmit = async(data) => {
+    setLoading(true)
+    await props.submitComment(props.screamId, {body: data.body})
+    setLoading(false)
   }
 
-  handleChange = event => {
-    this.setState({[event.target.name]: event.target.value})
-  }
+  useEffect(() => {
+    props.ui.errors && Object.entries(props.ui.errors).forEach(errors => {
+      const [error, message] = errors
+      // noinspection JSCheckFunctionSignatures
+      setError(error, {type: "manual", message: message})
+    })
+  }, [props.ui.errors, setError])
 
-  handleSubmit = event => {
-    event.preventDefault()
-    this.props.submitComment(this.props.screamId, {body: this.state.body})
-    this.setState({body: ""})
-  }
+  useEffect(() => {
+    if (!props.ui.errors && !loading)
+      reset({body: ""})
+  }, [reset, props.ui.errors, loading])
 
-  getError = () => {
-    return this.props.ui.errors ? this.props.ui.errors.comment : null
-  }
-
-  render() {
-    const {classes, authenticated} = this.props
-    return (
-      <Fragment>
-        {authenticated ? (
-          <Grid item sm={12} style={{textAlign: "center"}}>
-            <form onSubmit={this.handleSubmit}>
-              <TextField name={"body"} type={"text"} label={"Comment on scream"} error={!!this.getError()} fullWidth
-                         helperText={this.getError()} value={this.state.body} onChange={this.handleChange}
-                         className={classes.textField}/>
-              <Button type={"submit"} variant={"contained"} color={"primary"} className={classes.button}>
-                Submit
-              </Button>
-            </form>
-            <hr className={classes.visibleSeparator}/>
-          </Grid>
-        ) : null}
-      </Fragment>
-    );
-  }
+  const {classes, authenticated} = props
+  return (
+    <Fragment>
+      {authenticated ? (
+        <Grid item sm={12} style={{textAlign: "center"}}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <TextField name={"body"} type={"text"} label={"Comment on scream"} className={classes.textField}
+                       inputRef={register({required: "must not be empty"})} fullWidth
+                       error={!!errors.body} helperText={errors?.body?.message} />
+            <Button type={"submit"} variant={"contained"} color={"primary"} className={classes.button}
+                    disabled={loading}>
+              Submit
+              {loading && <CircularProgress size={30} className={classes.progressSpinner}/>}
+            </Button>
+          </form>
+          <hr className={classes.invisibleSeparator}/>
+        </Grid>
+      ) : null}
+    </Fragment>
+  )
 }
 
 CommentForm.propTypes = {

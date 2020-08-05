@@ -1,13 +1,4 @@
-import {
-  CLEAR_ERRORS,
-  CLOSE_COMMENT_DIALOG,
-  CLOSE_SCREAM_DIALOG,
-  LOADING_UI,
-  OPEN_COMMENT_DIALOG,
-  OPEN_SCREAM_DIALOG,
-  SET_ERRORS,
-  SET_OLD_PATH
-} from "./types"
+import {CLEAR_ERRORS, LOADING_UI, SET_ERRORS, SET_OLD_PATH} from "./types"
 
 const initialState = {
   loading: false,
@@ -25,14 +16,6 @@ export default function (state = initialState, action) {
       return {...state, loading: false, errors: null}
     case LOADING_UI:
       return {...state, loading: true}
-    case OPEN_SCREAM_DIALOG:
-      return {...state, dialogStateOfScream: true}
-    case CLOSE_SCREAM_DIALOG:
-      return {...state, dialogStateOfScream: false, errors: null, loading: false}
-    case OPEN_COMMENT_DIALOG:
-      return {...state, dialogStateOfComment: true}
-    case CLOSE_COMMENT_DIALOG:
-      return {...state, dialogStateOfComment: false, errors: null, loading: false}
     case SET_OLD_PATH:
       return {...state, oldPath: action.payload}
     default:

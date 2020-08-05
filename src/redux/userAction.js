@@ -52,8 +52,7 @@ export const getUserData = () => async(dispatch) => {
     const response = await axios.get("/user")
     dispatch({type: SET_USER, payload: response.data})
   } catch (error) {
-    if (error.response?.status === 403)
-      dispatch(logoutUser())
+    error?.response?.status === 403 ? dispatch(logoutUser()) : console.log(error)
   }
 }
 
@@ -63,19 +62,18 @@ export const uploadImage = (formData) => async (dispatch) => {
     await axios.post("/user/image", formData)
     dispatch(getUserData())
   } catch(error) {
-    if (error.response.status === 403)
-      dispatch(logoutUser())
+    console.log(error)
   }
 }
 
 export const editUserDetails = (userDetails) => async(dispatch) => {
+  dispatch({type: LOADING_UI})
   try {
     const response = await axios.post("/user", userDetails)
     dispatch({type: EDIT_CREDENTIALS, payload: response.data})
+    dispatch({type: CLEAR_ERRORS})
   } catch(error) {
     console.log(error)
-    if (error?.response?.status === 403)
-      dispatch(logoutUser())
   }
 }
 

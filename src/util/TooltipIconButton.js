@@ -1,12 +1,14 @@
 import React from "react"
-import {Tooltip, IconButton} from "@material-ui/core"
+import {Tooltip, IconButton, CircularProgress} from "@material-ui/core"
 
-function TooltipIconButton({children, onClick, title, buttonClass, tipClass}) {
+function TooltipIconButton({children, onClick, title, buttonClass, tipClass, loading, disabled}) {
   return (
     <Tooltip title={title} className={tipClass} placement={"top"}>
-      <IconButton onClick={onClick} className={buttonClass}>
-        {children}
-      </IconButton>
+      <span>
+        <IconButton onClick={onClick} className={buttonClass} disabled={disabled || loading}>
+          {children} {loading && <CircularProgress size={30} style={{position: "absolute"}}/>}
+        </IconButton>
+      </span>
     </Tooltip>
   );
 }

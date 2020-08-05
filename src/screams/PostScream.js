@@ -1,69 +1,73 @@
-import React, {Component, Fragment} from "react"
+import React, {Fragment, useEffect, useState} from "react"
 import PropTypes from "prop-types"
-import {Button, Dialog, CircularProgress, DialogContent, DialogTitle, TextField, withStyles} from "@material-ui/core"
+import {Button, CircularProgress, Dialog, DialogContent, DialogTitle, TextField, withStyles} from "@material-ui/core"
 import {Add as AddIcon, Close as CloseIcon} from "@material-ui/icons"
 import {connect} from "react-redux"
+import {useForm} from "react-hook-form"
 
-import {postScream, openScreamDialog, closeScreamDialog} from "../redux/dataAction"
+import {postScream} from "../redux/dataAction"
 import TooltipIconButton from "../util/TooltipIconButton"
 
-class PostScream extends Component {
-  state = {
-    body: ""
+function PostScream(props) {
+  const {handleSubmit, register, errors, setError, reset} = useForm({defaultValues: {body: ""}})
+  const [dialogState, setDialogState] = useState(false)
+
+  const onSubmit = (data) => {
+    props.postScream({body: data.body})
   }
 
-  handleChange = (event) => {
-    this.setState({[event.target.name]: event.target.value})
+  const handleOpen = () => {
+    reset({body: ""})
+    setDialogState(true)
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault()
-    this.props.postScream({body: this.state.body})
+  const handleClose = () => {
+    setDialogState(false)
   }
 
-  handleOpen = () => {
-    this.setState({body: ""})
-    this.props.openScreamDialog()
-  }
+  useEffect(() => {
+    if (!props.ui.errors && !props.ui.loading)
+      setDialogState(false)
+  }, [props.ui.errors, props.ui.loading])
 
-  getError = () => {
-      return this.props.ui.errors ? this.props.ui.errors.body : null
-  }
+  useEffect(() => {
+    props.ui.errors && Object.entries(props.ui.errors).forEach(errors => {
+      const [error, message] = errors
+      // noinspection JSCheckFunctionSignatures
+      setError(error, {type: "manual", message: message})
+    })
+  }, [props.ui.errors, setError])
 
-  render() {
-    const {classes, ui: {loading, dialogStateOfScream}, closeScreamDialog} = this.props
-    return (
-      <Fragment>
-        <TooltipIconButton onClick={this.handleOpen} title={"Post a Scream"}>
-          <AddIcon/>
+  const {classes, ui: {loading}} = props
+  return (
+    <Fragment>
+      <TooltipIconButton onClick={handleOpen} title={"Post a Scream"}>
+        <AddIcon/>
+      </TooltipIconButton>
+      <Dialog open={dialogState} onClose={handleClose} fullWidth maxWidth={"sm"}>
+        <TooltipIconButton title={"Close"} onClick={handleClose} tipClass={classes.closeButton}>
+          <CloseIcon/>
         </TooltipIconButton>
-        <Dialog open={dialogStateOfScream} onClose={closeScreamDialog} fullWidth maxWidth={"sm"}>
-          <TooltipIconButton title={"Close"} onClick={closeScreamDialog} tipClass={classes.closeButton}>
-            <CloseIcon/>
-          </TooltipIconButton>
-          <DialogTitle>Post a new scream</DialogTitle>
-          <DialogContent>
-            <form onSubmit={this.handleSubmit}>
-              <TextField name={"body"} type={"text"} value={this.state.body} label={"SCREAM!!"} multiline rows={"3"}
-                         placeholder={"Scream at your fellow friends"} onChange={this.handleChange} fullWidth
-                         className={classes.textField} error={!!this.getError()} helperText={this.getError()}/>
-              <Button type={"submit"} variant={"contained"} color={"primary"} className={classes.submitButton}
-              disabled={loading}>
-                Submit
-                {loading && <CircularProgress size={30} className={classes.progressSpinner}/>}
-              </Button>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </Fragment>
-    )
-  }
+        <DialogTitle>Post a new scream</DialogTitle>
+        <DialogContent>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <TextField name="body" type="text" label="SCREAM!!" multiline rows="3" className={classes.textField}
+                       inputRef={register({required: "must not be empty"})} placeholder="Scream at your fellow friends"
+                       error={!!errors.body} helperText={errors?.body?.message} fullWidth/>
+            <Button type={"submit"} variant={"contained"} color={"primary"} className={classes.submitButton}
+                    disabled={loading}>
+              Submit
+              {loading && <CircularProgress size={30} className={classes.progressSpinner}/>}
+            </Button>
+          </form>
+        </DialogContent>
+      </Dialog>
+    </Fragment>
+  )
 }
 
 PostScream.propTypes = {
   postScream: PropTypes.func.isRequired,
-  openScreamDialog: PropTypes.func.isRequired,
-  closeScreamDialog: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired
 }
@@ -71,6 +75,5 @@ PostScream.propTypes = {
 const styles = (theme) => ({...theme.customStyles})
 
 const mapStateToProps = (state) => ({ui: state.ui})
-const mapActionToProps = {postScream, openScreamDialog, closeScreamDialog}
 
-export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(PostScream))
+export default connect(mapStateToProps, {postScream})(withStyles(styles)(PostScream))
