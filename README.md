@@ -4,7 +4,7 @@ This project is based upon the excellent [Full Stack React & Firebase tutorial](
 
 It is in two parts
 1) [Back-End based on Firebase Cloud Functions and Firestore database](https://github.com/crazynayan/scream-tutorial).
-2) [Front end based on React, Material UI, Redux and React Hook Forms](https://github.com/crazynayan/scream-react).
+2) [Front end based on React, Material UI, Redux and React Hook Forms](https://github.com/crazynayan/scream-react). - This page
 
 The code and functionality is more or less the same but I did some changes to improve the code, 
 bring it up to speed to modern standards (some concepts might not have been supported at the 
