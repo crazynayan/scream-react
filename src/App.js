@@ -20,7 +20,7 @@ import AnyUser from "./users/AnyUser"
 
 const theme = createMuiTheme(themeFile)
 
-axios.defaults.baseURL = "http://localhost:5000/scream-tutorial/us-central1/api"
+axios.defaults.baseURL = "https://us-central1-scream-tutorial.cloudfunctions.net/api"
 
 const token = localStorage.FirebaseToken
 if (token) {
